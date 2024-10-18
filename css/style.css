@@ -1,0 +1,16 @@
+/* Body settings - background */
+body {
+    background: url('../res/photo/background.png') no-repeat center center fixed; /* TEST BACKGROUND */
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Makes the middle content section */
+.midSectionContent {
+    flex-grow: 1;
+    display: flex;
+    max-width: 1000px;
+    background-color: rgba(0, 200, 0, 0.8); /* TEST COLOR */
+}
