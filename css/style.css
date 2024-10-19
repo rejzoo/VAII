@@ -1,3 +1,8 @@
+/* Color variables */
+:root {
+    --purple: rgba(159, 49, 210, 0.9);
+}
+
 /* Body settings - background */
 body {
     background: url('../res/photo/background.png') no-repeat center center fixed; /* TEST BACKGROUND */
@@ -5,12 +10,97 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    margin: 0;
 }
 
 /* Makes the middle content section */
 .midSectionContent {
     flex-grow: 1;
     display: flex;
+    flex-direction: column;
     max-width: 1000px;
-    background-color: rgba(0, 200, 0, 0.8); /* TEST COLOR */
+    background-color: rgba(52, 52, 50, 0.85); /* TEST COLOUR */
+    margin: 20px auto;
+    padding: 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+    min-height: 50vh;
+}
+
+/* Mid section frame */
+.frame {
+    padding: 10px;
+    border: 7px solid rgba(106, 18, 146, 1);
+    border-radius: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Gradient for NavBar */
+.customNavBar {
+    background: linear-gradient(to bottom,
+    rgba(52, 52, 50, 1) 0%,
+    rgba(52, 52, 50, 0.95) 50%,
+    rgba(52, 52, 50, 0.85) 70%,
+    rgba(52, 52, 50, 0.6) 100%);
+}
+
+/* NavBar link color */
+.customNavBar .nav-link {
+    color: white;
+}
+
+/* NavBar link hover color */
+.customNavBar .nav-link:hover {
+    color: var(--purple);
+}
+
+/* NavBar brand color */
+.customNavBar .navbar-brand {
+    color: RED;
+}
+
+/* NavBar brand hover color */
+.customNavBar .navbar-brand:hover {
+    color: var(--purple);
+}
+
+/* Space between TITLE and search bar*/
+h1 {
+    margin-bottom: 20px;
+}
+
+/* Responsive search bar */
+.input-group {
+    width: 100%;
+}
+
+/* Transparent table - added little background for better look */
+.transparent-table {
+    background-color: rgba(52, 52, 50, 0.8);
+}
+
+/* Transparent cells */
+.transparent-table th, .transparent-table td {
+    background-color: transparent;
+    border: 3px solid var(--purple);
+    color: white;
+    text-align: center;
+}
+
+/* Bold regions */
+.transparent-table th {
+    font-weight: bold;
+}
+
+/* Regions cells */
+.region-cell {
+    text-align: center;
+    vertical-align: middle;
+    font-weight: bold;
+}
+
+/* Responsive table */
+.table {
+    width: 100%;
+    table-layout: auto;
 }
