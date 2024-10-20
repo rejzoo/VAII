@@ -81,3 +81,69 @@ body {
     margin-right: 20px;
     color: white;
 }
+
+/* MOVED FROM tanks.css | need in mastery as well*/
+/* Box for search options */
+.searchOptionsBox {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: space-evenly;
+    margin-left: 60px;
+    gap: 5px;
+    padding: 10px;
+}
+
+/* Searchbar */
+.searchBar {
+    background-color: var(--grayLite);
+    padding: 10px;
+    font-size: 15px;
+    border: 2px solid var(--purple);
+    height: 40px;
+    width: 150px;
+    border-radius: 20px;
+    color: white;
+    min-width: 120px;
+    flex-grow: 1;
+}
+
+/* Button group */
+.buttonGroupBox {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+/* Custom search button */
+.searchButton {
+    padding: 6px 8px;
+    font-size: 12px;
+    border-top: 2px solid var(--purple);
+    border-bottom: 2px solid var(--purple);
+    border-left: none;
+    border-right: none;
+    background-color: var(--grayLite);
+    color: white;
+    transition: background-color 0.3s, transform 0.2s;
+    font-weight: bold;
+}
+
+/* Round the first button in group */
+.searchButton:first-child {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-left: 2px var(--purple);
+}
+
+/*  Round the last button in group */
+.searchButton:last-child {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-right: 2px var(--purple);
+}
+
+/* Hover effects */
+.searchButton:hover {
+    background-color: var(--grayLite);
+    transform: translateY(-2px);
+    border-color: var(--purple);
+}
