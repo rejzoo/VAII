@@ -11,7 +11,7 @@ body {
     background-size: cover;
     min-height: 100vh;
     display: flex;
-    wrap-option: wrap;
+    flex-wrap: wrap;
     flex-direction: column;
     margin: 0;
 }
