@@ -1,11 +1,3 @@
-/* Profile box */
-.headerProfile {
-    display: flex;
-    justify-content: space-between;
-    height: 120px;
-    margin: 10px;
-}
-
 /* Left colum of profile box */
 .leftColumn {
     display: flex;

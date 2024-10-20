@@ -1,6 +1,8 @@
 /* Color variables */
 :root {
     --purple: rgba(159, 49, 210, 0.9);
+    --graySite: rgba(52, 52, 50, 0.95);
+    --grayLite: rgb(69, 69, 68);
 }
 
 /* Body settings - background */
@@ -45,6 +47,7 @@ body {
 /* Page content */
 .pageContent {
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     margin-left: 10%;
     margin-right: 10%;
@@ -55,4 +58,26 @@ body {
     rgba(52, 52, 50, 0.6) 100%);
     color: white;
     min-height: 900px;
+}
+
+/* Page header box */
+.pageHeaderBox {
+    display: flex;
+    justify-content: space-between;
+    height: 120px;
+    margin: 10px;
+}
+
+/* Page header - name */
+.pageHeader {
+    color: white;
+    margin-left: 20px;
+}
+
+/* Page description */
+.pageDescription {
+    font-size: 18px;
+    margin-top: 60px;
+    margin-right: 20px;
+    color: white;
 }
