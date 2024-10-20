@@ -64,7 +64,7 @@ body {
     color: var(--purple);
 }
 
-/* Space between TITLE and search bar*/
+/* Space between TITLE and search bar */
 h1 {
     margin-bottom: 20px;
 }
@@ -85,6 +85,7 @@ h1 {
     border: 3px solid var(--purple);
     color: white;
     text-align: center;
+    flex: auto;
 }
 
 /* Bold regions */

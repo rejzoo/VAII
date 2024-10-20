@@ -1,0 +1,139 @@
+/* Page content */
+.pageContent {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10%;
+    margin-right: 10%;
+    background: linear-gradient(to top,
+    rgba(52, 52, 50, 1) 20%,
+    rgba(52, 52, 50, 0.95) 40%,
+    rgba(52, 52, 50, 0.85) 80%,
+    rgba(52, 52, 50, 0.6) 100%);
+    color: white;
+}
+
+/* Profile box */
+.headerProfile {
+    display: flex;
+    justify-content: space-between;
+    height: 120px;
+    margin: 10px;
+}
+
+/* Left colum of profile box */
+.leftColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Right colum of profile box */
+.rightColumn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 10px;
+}
+
+/* Nickname box */
+.nickname {
+    font-size: 35px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* Clan info */
+.clanInfo {
+    font-size: 20px;
+    margin: 5px 0;
+}
+
+/* Row with statistics */
+.statsRow {
+    display: flex;
+}
+
+/* Overview stats in row box */
+.overviewContent {
+    width: 300px;
+    height: 300px;
+    margin: 20px;
+    justify-content: center;
+    align-content: center;
+}
+
+/* Box of stats */
+.overviewContentBox {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+/* 4 info boxes */
+.info {
+    color: RED;
+    height: 100px;
+}
+
+/* Second stats in row box*/
+.statsOverviewContent {
+    flex: auto;
+    height: 300px;
+    margin: 20px;
+}
+
+/* Table box */
+.tableTanks {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    overflow-x: auto;
+}
+
+/* Table */
+.tableTanks table {
+    width: 100%;
+    max-width: 1200px;
+    border-collapse: collapse;
+}
+
+/* Table settings */
+.tableTanks th, .tableTanks td {
+    background-color: transparent;
+    padding: 10px 15px;
+    text-align: center;
+    border-bottom: 1px solid;
+}
+
+.tableTanks th {
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ccc;
+}
+
+.tableTanks tbody tr:hover {
+    background-color: var(--purple);
+}
+
+/* Table with player statistics */
+.statsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+/* */
+.statsTable td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+    color: white;
+}
+
+/* Hover highlight */
+.statsTable tr:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
