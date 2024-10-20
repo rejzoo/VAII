@@ -45,26 +45,22 @@
     text-align: center;
     background-color: transparent;
     border-radius: 10px;
-    overflow: hidden;
 }
 
 /* Header */
 .tableClanStats th {
     background-color: var(--purple);
     color: white;
-    padding: 10px;
     font-size: 18px;
 }
 
 /* Data */
 .tableClanStats td {
-    padding: 12px;
     border-bottom: 2px solid var(--purple);
     font-size: 16px;
 }
 
 .tableClanStats th, .tableClanStats td {
-    padding: 15px;
 }
 
 /* Box */
@@ -85,7 +81,6 @@
 
 /*  */
 .playersInClan th, td {
-    padding: 12px;
     text-align: center;
     border: 1px solid white;
     color: white;

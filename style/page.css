@@ -148,3 +148,18 @@ body {
     transform: translateY(-2px);
     border-color: var(--purple);
 }
+
+/* Left colum of box */
+.leftColumn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+/* Right colum of box */
+.rightColumn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
