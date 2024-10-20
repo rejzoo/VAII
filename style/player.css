@@ -22,9 +22,13 @@
 }
 
 /* Clan info */
-.clanInfo {
+.clanInfoBox {
     font-size: 20px;
     margin: 5px 0;
+}
+
+.accountInfo {
+    margin-right: 60px;
 }
 
 /* Row with statistics */

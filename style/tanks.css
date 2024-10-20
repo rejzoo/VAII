@@ -16,7 +16,6 @@
 .tierContainer {
     display: flex;
     flex-wrap: wrap;
-    position: sticky;
 }
 
 /* Item - name, image, link */
