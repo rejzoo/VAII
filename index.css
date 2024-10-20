@@ -1,18 +1,4 @@
-/* Color variables */
-:root {
-    --purple: rgba(159, 49, 210, 0.9);
-}
-
-/* Body settings - background */
-body {
-    background: url('../res/photo/background.png') no-repeat center center fixed; /* TEST BACKGROUND */
-    background-size: cover;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-}
-
+/* I DONT LIKE THIS NEED REWORK HTML AS WELL */
 /* Makes the middle content section */
 .midSectionContent {
     flex-grow: 1;
@@ -33,35 +19,6 @@ body {
     border: 7px solid rgba(106, 18, 146, 1);
     border-radius: 20px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-}
-
-/* Gradient for NavBar */
-.customNavBar {
-    background: linear-gradient(to bottom,
-    rgba(52, 52, 50, 1) 0%,
-    rgba(52, 52, 50, 0.95) 50%,
-    rgba(52, 52, 50, 0.85) 70%,
-    rgba(52, 52, 50, 0.6) 100%);
-}
-
-/* NavBar link color */
-.customNavBar .nav-link {
-    color: white;
-}
-
-/* NavBar link hover color */
-.customNavBar .nav-link:hover {
-    color: var(--purple);
-}
-
-/* NavBar brand color */
-.customNavBar .navbar-brand {
-    color: RED;
-}
-
-/* NavBar brand hover color */
-.customNavBar .navbar-brand:hover {
-    color: var(--purple);
 }
 
 /* Space between TITLE and search bar */
