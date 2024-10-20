@@ -62,12 +62,12 @@
 /* Second stats in row box*/
 .statsOverviewContent {
     flex: auto;
-    height: 300px;
+    flex-wrap: wrap;
     margin: 20px;
 }
 
 /* Table box */
-.tableTanks {
+.tableTanksBox {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -76,7 +76,7 @@
 }
 
 /* Table */
-.tableTanks table {
+.tableTanks {
     width: 100%;
     max-width: 1200px;
     border-collapse: collapse;
@@ -96,7 +96,7 @@
     border-bottom: 2px solid #ccc;
 }
 
-.tableTanks tbody tr:hover {
+.tableTanks tr:hover {
     background-color: var(--purple);
 }
 

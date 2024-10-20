@@ -29,7 +29,6 @@
 
 /* Clan stats box */
 .clanStatsBox {
-    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
@@ -41,7 +40,6 @@
 /* Table */
 .tableClanStats {
     margin-top: 10px;
-    max-width: 60%;
     border-collapse: collapse;
     font-family: Arial, sans-serif;
     text-align: center;
