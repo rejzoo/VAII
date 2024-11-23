@@ -14,7 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="h-screen flex">
+      <body className="min-h-screen flex">
         {/*
         <div className="w-60 bg-gray-800 text-white">
           <Menu />
