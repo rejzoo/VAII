@@ -1,4 +1,4 @@
-export default function Tank( { params }: { params: {tankID: number}} ) {
+export default function Tank( { params }: { params: {tankID: string}} ) {
 
     return (
         <div>

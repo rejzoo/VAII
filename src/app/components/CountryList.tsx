@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import { supabase } from '../../lib/initSupabase';
+import { supabase } from '../../../lib/initSupabase';
 
 export default function CountryList() {
     type Country = {
