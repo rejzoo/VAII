@@ -1,93 +1,76 @@
 'use client'
 
-import TankTableItem from "../components/TankTableItem";
 import { useEffect, useState } from 'react';
-
-interface Tank {
-  tank_id: number;
-  name: string;
-  short_name: string;
-  nation: string;
-  type: string;
-  tier: number;
-  is_premium: boolean;
-  description: string;
-  images: {
-      small_icon: string;
-      contour_icon: string;
-      big_icon: string;
-  };
-  default_profile: {
-      hp: number;
-      speed_forward: number;
-      speed_backward: number;
-      weight: number;
-      armor: {
-          turret: {
-              front: number;
-              sides: number;
-              rear: number;
-          };
-          hull: {
-              front: number;
-              sides: number;
-              rear: number;
-          };
-      };
-      gun: {
-          name: string;
-          reload_time: number;
-          caliber: number;
-          aim_time: number;
-          dispersion: number;
-          fire_rate: number;
-      };
-      turret: {
-          name: string;
-          view_range: number;
-          traverse_speed: number;
-      };
-  };
-}
-
-interface ApiResponse {
-  data: Record<string, Tank>;
-}
+import TankTableItem from "../components/TankTableItem";
+import { Tank } from '@/types/tank';
+import { SearchBarTanks } from '../components/ui/SearchBar';
 
 
 export default function TankList() {
-  const [tanks, setTanks] = useState<Tank[]>([]);
+    const [tanks, setTanks] = useState<Tank[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState<string>('');
 
-  useEffect(() => {
-    fetch('../api/syncTanks')
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`Failed to fetch data: ${response.statusText}`);
+    useEffect(() => {
+        const fetchTanks = async () => {
+            try {
+                const response = await fetch('../api/getTanks', {
+                    method: 'GET',
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.success) {
+                    setTanks(result.data);
+                } else {
+                    setError(result.error || 'Failed to fetch tanks data');
+                }
+            } catch (err) {
+                setError((err as Error).message || 'Unexpected error occurred');
+            } finally {
+                setLoading(false);
             }
-            return response.json() as Promise<ApiResponse>;
-        })
-        .then((data) => {
-            console.log('Fetched Data:', data);
-            setTanks(Object.values(data.data || {}));
-        })
-        .catch((err) => {
-            console.error('Error fetching from API route:', err);
-        });
-  }, []);
+        };
 
-  return (
-    <div className="flex justify-center">
-        <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2">
-            {tanks.map((tank, index) => (
-                <TankTableItem
-                    key={index}
-                    nation={tank.nation}
-                    typeIcon={tank.type}
-                    name={tank.name}
-                    link={tank.name}
-                />
-            ))}
-        </div>
-    </div>
-  );
+        fetchTanks();
+    }, []);
+
+    // found on the internet
+    // case-insensitive filtering that also supports special characters
+    const filteredTanks = tanks.filter((tank) =>
+            tank.name.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(
+            searchQuery.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        )
+    );
+
+    if (loading) {
+        return <p className="text-center">Loading data...</p>;
+    }
+
+    if (error) {
+        return <p className="text-center text-red-500">Error: {error}</p>;
+    }
+    console.log(tanks);
+    return (
+        <>
+            <div className="m-5 bg-gray-700 rounded-lg p-5 mx-auto">
+                <SearchBarTanks value={ searchQuery } onChange={ (e) => setSearchQuery(e.target.value) } />
+            </div>
+
+            <div className="flex justify-center">
+                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-7 gap-2">
+                    {filteredTanks.map((tank, index) => (
+                        <TankTableItem
+                            key={index}
+                            nation={tank.nation}
+                            typeIcon={tank.type}
+                            name={tank.name}
+                            link={tank.name}
+                        />
+                    ))}
+                </div>
+            </div>
+        </>
+    );
 }

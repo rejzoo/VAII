@@ -6,6 +6,7 @@ export default function Menu() {
       <h1 className="text-2xl font-bold p-4 border-b border-gray-700">Seal Clubber</h1>
 
       <nav className="flex-1 mt-5">
+            <MenuLink href="/admin" text="ADMIN" color="text-red-600"/>
             <MenuLink href="/" text="Home"/>
             <MenuLink href="/tanks" text="Tanks"/>
             <MenuLink href="/servers/EU" text="Servers"/>

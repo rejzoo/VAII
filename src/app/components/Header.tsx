@@ -1,5 +1,5 @@
 'use client'
-import SearchBar from "./ui/SearchBar";
+import { SearchBarPlayer } from "./ui/SearchBar";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
@@ -11,7 +11,7 @@ export default function Header() {
 
         {pathname !== "/" && (
             <div className="flex-1 flex justify-center text-black">
-            <SearchBar isLarge={false}/>
+            <SearchBarPlayer isLarge={false}/>
             </div>
         )}
 

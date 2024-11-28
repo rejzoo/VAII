@@ -1,5 +1,4 @@
-import SearchBar from "./components/ui/SearchBar";
-import CountryList from '../app/components/CountryList';
+import { SearchBarPlayer } from "./components/ui/SearchBar";
 
 export default function Main() {
     return (
@@ -9,14 +8,8 @@ export default function Main() {
         </h1>
   
         <div className="flex justify-center w-full">
-            <SearchBar />
+            <SearchBarPlayer />
         </div>
-
-        <div>
-            <h1>Countries</h1>
-            <CountryList />
-          </div>
-          
       </div>
     );
   }
