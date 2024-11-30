@@ -15,7 +15,7 @@ export default function TankList() {
     useEffect(() => {
         const fetchTanks = async () => {
             try {
-                const response = await fetch('../api/getTanks', {
+                const response = await fetch('../api/tanks/getTanks', {
                     method: 'GET',
                 });
 
@@ -63,6 +63,7 @@ export default function TankList() {
                     {filteredTanks.map((tank, index) => (
                         <TankTableItem
                             key={index}
+                            tankID={tank.tank_id}
                             nation={tank.nation}
                             typeIcon={tank.type}
                             name={tank.name}

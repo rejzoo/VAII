@@ -11,7 +11,7 @@ export default function Page() {
     useEffect(() => {
         const fetchLastUpdate = async () => {
             try {
-                const response = await fetch('../api/getLastTankSync');
+                const response = await fetch('../api/data/getLastTankSync');
                 const result = await response.json();
 
                 if (response.ok && result.success) {
@@ -34,7 +34,7 @@ export default function Page() {
         setMessageColor('');
 
         try {
-            const response = await fetch('../api/syncTanks', {
+            const response = await fetch('../api/data/syncTanks', {
                 method: 'POST',
             });
 

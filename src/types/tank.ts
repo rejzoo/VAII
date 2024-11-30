@@ -9,3 +9,12 @@ export interface Tank {
     price_credit: number;
     price_gold: number;
 }
+
+export interface TankImages {
+    tank_id: number;
+    images: {
+        big_icon: string;
+        small_icon: string;
+        contour_icon: string;
+    }
+}
