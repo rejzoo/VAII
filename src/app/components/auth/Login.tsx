@@ -8,7 +8,7 @@ interface LoginProps {
   isLogin: boolean;
 }
 
-//LOGIN A REGISTER JE ASI SPRAVENY - TREBA SPRAVIT RENDEROVANIE LOGOUT A VALIDACIU ASI
+//LOGIN A REGISTER JE ASI SPRAVENY - TREBA SPRAVIT RENDEROVANIE LOGOUT
 
 export default function LoginSigninForm({ onSubmit, onClose, isLogin }: LoginProps) {
   return (

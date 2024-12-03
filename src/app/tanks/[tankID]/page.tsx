@@ -59,7 +59,7 @@ export default function TankPage( { params }: { params: Promise<{tankID: number}
     return (
       <>
       <div className="ml-3">
-        <FavoriteToggle />
+        <FavoriteToggle tankId={tankID} />
       </div>
     
       <div className="text-white p-4 flex flex-col lg:flex-row items-center lg:items-start space-y-4 lg:space-y-0 lg:space-x-6">

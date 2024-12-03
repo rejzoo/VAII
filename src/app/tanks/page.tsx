@@ -15,6 +15,7 @@ export default function TankList() {
     useEffect(() => {
         const fetchTanks = async () => {
             try {
+                console.log("PAGE FETCH");
                 const response = await fetch('../api/tanks/getTanks', {
                     method: 'GET',
                 });
@@ -51,7 +52,7 @@ export default function TankList() {
     if (error) {
         return <p className="text-center text-red-500">Error: {error}</p>;
     }
-    console.log(tanks);
+    //console.log(tanks);
     return (
         <>
             <div className="m-5 bg-gray-700 rounded-lg p-5 mx-auto">

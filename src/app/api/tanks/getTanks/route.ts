@@ -1,7 +1,10 @@
+
 import { NextResponse } from 'next/server';
 import { supabase } from '../../../../../lib/initSupabase';
 
 export async function GET() {
+    console.log("API GET");
+
     try {
         const { data, error } = await supabase
             .from('TankList')
@@ -14,7 +17,6 @@ export async function GET() {
                 { status: 500 }
             );
         }
-    
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (err) {
         return NextResponse.json(
