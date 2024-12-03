@@ -1,15 +1,46 @@
 'use client';
 
-import { FormEvent, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import LoginForm from '../components/auth/Login';
 
 export default function LoginPage({ onClose }: { onClose: () => void }) {
-  const router = useRouter();
   const [isLoginPage, setIsLoginPage] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  function toggleForms() {
+    setIsLoginPage(!isLoginPage);
+    setErrorMessage(null);
+  }
+
+  return (
+    <div
+      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+      <div className="bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg relative border border-gray-600">
+        <LoginForm onClose={onClose} isLogin={isLoginPage} />
+        
+        {errorMessage && (
+          <div className="mt-4 text-red-500 bg-red-100 p-2 rounded text-sm">
+            {errorMessage}
+          </div>
+        )}
+
+        <button className="mt-4 text-white underline" onClick={toggleForms}>
+          {isLoginPage ? 'No account? Sign up' : 'Already have an account? Sign in'}
+        </button>
+      </div>
+    </div>
+  );
+}
+
+/*
+
+async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setErrorMessage(null);
@@ -52,33 +83,4 @@ export default function LoginPage({ onClose }: { onClose: () => void }) {
     }
   }
 
-  function toggleForms() {
-    setIsLoginPage(!isLoginPage);
-    setErrorMessage(null);
-  }
-
-  return (
-    <div
-      className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 px-4"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          onClose();
-        }
-      }}
-    >
-      <div className="bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg relative border border-gray-600">
-        <LoginForm onSubmit={handleSubmit} onClose={onClose} isLogin={isLoginPage} />
-        
-        {errorMessage && (
-          <div className="mt-4 text-red-500 bg-red-100 p-2 rounded text-sm">
-            {errorMessage}
-          </div>
-        )}
-
-        <button className="mt-4 text-white underline" onClick={toggleForms}>
-          {isLoginPage ? 'No account? Sign up' : 'Already have an account? Sign in'}
-        </button>
-      </div>
-    </div>
-  );
-}
+*/
