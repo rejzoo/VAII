@@ -1,7 +1,6 @@
 'use server';
 
 import { createClient } from '../../../utils/supabase/server';
-import { revalidatePath } from 'next/cache';
 import { validateEmail, validatePassword, validateName } from '../../../utils/validators/validators'
 
 const emailErrorMessage = 'Invalid email format.';
@@ -31,7 +30,6 @@ export async function login(formData: FormData) {
   }
 
   return { success: true };
-  //revalidatePath('/');
 }
 
 export async function signup(formData: FormData) {
@@ -55,19 +53,48 @@ export async function signup(formData: FormData) {
     return { success: false, error: passwordErrorMessage };
   }
 
-  const { error } = await supabase.auth.signUp({
+  const { data: existingUser, error: nicknameCheckError } = await supabase
+    .from('UserData')
+    .select('user_id')
+    .eq('nickname', name)
+    .single();
+
+  //PGRST116 no rows found
+  if (nicknameCheckError && nicknameCheckError.code !== 'PGRST116') {
+    console.error('Error checking nickname:', nicknameCheckError.message);
+    return { success: false, error: 'Unexpected error occurred while checking nickname availability.' };
+  }
+
+  if (existingUser) {
+    return { success: false, error: 'Nickname is already taken.' };
+  }
+
+  const { data: signUpResult, error: signUpError  } = await supabase.auth.signUp({
     email,
     password,
-    options: { data: { name } },
   });
 
-  if (error) {
-    console.error('Signup failed:', error.message);
-    return { success: false, error: error.message};
+  if (signUpError) {
+    console.error('Signup failed:', signUpError.message);
+    return { success: false, error: signUpError.message};
+  }
+
+  const userId = signUpResult.user?.id;
+  if (!userId) {
+    console.error('Signup succeeded, but user ID is missing.');
+    return { success: false, error: 'Unexpected error occurred after registration.' };
+  }
+
+  const { error: insertError } = await supabase
+    .from('UserData')
+    .insert({ user_id: userId, nickname: name });
+
+  if (insertError) {
+    console.error('Failed to insert nickname into UserData:', insertError.message);
+    return { success: false, error: 'Signup succeeded, but failed to save user data.' };
   }
 
   return { success: true };
-  //revalidatePath('/');
 }
 
 export async function logout() {
@@ -77,8 +104,6 @@ export async function logout() {
   if (error) {
     console.error('Logout failed:', error.message);
   }
-
-  revalidatePath('/');
 }
 
 export async function isLoggedIn() {

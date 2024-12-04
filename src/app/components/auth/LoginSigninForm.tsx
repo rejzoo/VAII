@@ -42,13 +42,14 @@ export default function LoginSigninForm({ onClose, isLogin }: LoginProps) {
 
   return (
     <form onSubmit={(e) => e.preventDefault()}>
-      <h1>{isLogin}</h1>
+      <div className='mb-10'>
       <button
         onClick={onClose}
         className="absolute top-3 right-3 text-white hover:text-gray-900"
       >
         ✕
       </button>
+      </div>
       { !isLogin &&
       <input
         id="name"
@@ -56,7 +57,7 @@ export default function LoginSigninForm({ onClose, isLogin }: LoginProps) {
         name="name"
         placeholder="Nickname"
         required
-        className="w-full p-2 mt-7 mb-3 rounded bg-gray-600"
+        className="w-full p-2 mb-3 rounded bg-gray-600"
       />
       }
       <input

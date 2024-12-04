@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import LoginForm from '../components/auth/Login';
+import LoginForm from '../components/auth/LoginSigninForm';
 
 export default function LoginPage({ onClose }: { onClose: () => void }) {
   const [isLoginPage, setIsLoginPage] = useState<boolean>(true);
@@ -37,50 +37,3 @@ export default function LoginPage({ onClose }: { onClose: () => void }) {
     </div>
   );
 }
-
-/*
-
-async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    setErrorMessage(null);
-
-    const formData = new FormData(event.currentTarget);
-    const email = formData.get('email') as string;
-    const password = formData.get('password') as string;
-
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setErrorMessage('Please enter a valid email address.');
-      return;
-    }
-
-    const passwordRegex = /^(?=.*\d)[A-Za-z\d]{6,}$/;
-    if (!isLoginPage && !passwordRegex.test(password)) {
-      setErrorMessage('Password must be at least 6 characters long and contain at least one number.');
-      return;
-    }
-
-    try {
-      const endpoint = isLoginPage ? '../api/auth/login' : '../api/auth/register';
-
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        router.push('/');
-      } else {
-        setErrorMessage(result.error || 'An error occurred. Please try again.');
-      }
-    } catch (error) {
-      setErrorMessage('Unexpected error. Please try again later.');
-      console.error('Unexpected error:', error);
-    }
-  }
-
-*/
