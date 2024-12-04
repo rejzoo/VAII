@@ -18,3 +18,7 @@ export interface TankImages {
         contour_icon: string;
     }
 }
+
+export interface FavouriteTank {
+    TankList: Tank[];
+} 
