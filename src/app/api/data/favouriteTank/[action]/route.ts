@@ -8,8 +8,10 @@ export async function POST(req: NextRequest, { params }: { params: { action: str
     const { data, error } = await supabase.auth.getUser();
     if (error || !data?.user) {
         console.log("NEPRIHLASENY");
-        return;
+        return  NextResponse.json({ error: 'NEPRIHLASENY' }, { status: 400 });
     }
+
+    console.log(data);
 
     const { action } = params;
     const { tankId } = await req.json();
@@ -49,8 +51,10 @@ export async function POST(req: NextRequest, { params }: { params: { action: str
     } catch (error: unknown) {
         if (error instanceof Error) {
             console.error('Error:', error.message);
+            return NextResponse.json({ error: error.message }, { status: 400 });
         } else {
             console.error('Unexpected error:', error);
+            return NextResponse.json({ error: error }, { status: 400 });
         }
     }
 }
