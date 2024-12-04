@@ -1,5 +1,4 @@
 import { createClient } from '@/app/utils/supabase/server';
-//import { FavouriteTank } from '@/types/tank';
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -20,8 +19,6 @@ export async function GET() {
                 { status: 500 }
             );
         }
-
-        //const tanks = data.flatMap((item: FavouriteTank) => item.TankList);
 
         return NextResponse.json({ success: true, data }, { status: 200 });
     } catch (err) {

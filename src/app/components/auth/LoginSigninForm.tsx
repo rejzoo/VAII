@@ -92,7 +92,7 @@ export default function LoginSigninForm({ onClose, isLogin, setIsLoggedIn }: Log
         required
         className="w-full p-2 mb-3 rounded bg-gray-600"
       />
-      {isLogin ?
+      { isLogin ?
         <button onClick={async () => {
           const formData = validate();
           if (!formData) return;
@@ -102,7 +102,9 @@ export default function LoginSigninForm({ onClose, isLogin, setIsLoggedIn }: Log
         type="button" className="w-full bg-red-600 text-white p-2 rounded">
           Log in
         </button> 
+
         :
+        
         <button onClick={async () => {
           console.log("SIGN IN");
           const formData = validate();

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { updateNickname, deleteUser, getNickname, isLoggedIn } from "@/app/api/auth/actions/actions";
+import { validateName } from "@/app/utils/validators/validators";
 
 export default function ProfileDetails() {
     const [nickname, setNickname] = useState('');
@@ -37,6 +38,10 @@ export default function ProfileDetails() {
       }, []);
 
     const handleNicknameChange = async () => {
+        if (!validateName(nicknameToSet)) {
+          setMessage('Name must be 3-15 characters long and can only include letters, numbers, or underscores.');
+          return;
+        }
         try {
           if (!nicknameToSet.trim()) {
             setMessage('Nickname cannot be empty.');
@@ -92,7 +97,7 @@ return (
                 <input
                 id="nickname"
                 type="text"
-                placeholder="Enter your nickname"
+                placeholder={nickname}
                 value={nicknameToSet}
                 onChange={(e) => setNicknameToSet(e.target.value)}
                 className="flex-1 border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -123,5 +128,5 @@ return (
         </div>
         </> }
     </div>
-    );
+  );
 }

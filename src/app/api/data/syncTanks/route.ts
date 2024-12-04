@@ -1,7 +1,9 @@
-import { supabase } from "../../../../../lib/initSupabase";
 import { Tank, TankImages } from "@/types/tank";
+import { createClient } from "@/app/utils/supabase/server";
 
 export async function POST() {
+    const supabase = await createClient();
+
     try {
         const apiUrl = `https://api.worldoftanks.eu/wot/encyclopedia/vehicles/?application_id=${process.env.WARGAMING_API_KEY}`;
         const apiResponse = await fetch(apiUrl);
