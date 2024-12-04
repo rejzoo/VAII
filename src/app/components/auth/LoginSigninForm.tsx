@@ -6,16 +6,30 @@ import { validateEmail, validatePassword, validateName} from '../../utils/valida
 interface LoginProps {
   onClose: () => void;
   isLogin: boolean;
+  setIsLoggedIn: (status: boolean) => void;
 }
 
-export default function LoginSigninForm({ onClose, isLogin }: LoginProps) {
-  const handleResult = (result: { success?: boolean; error?: string }, successMessage: string) => {
+export default function LoginSigninForm({ onClose, isLogin, setIsLoggedIn }: LoginProps) {
+
+  const validate = () => {
+    const form = document.querySelector('form');
+    const formData = new FormData(form!);
+    const validationError = validateInput(formData);
+    if (validationError) {
+      console.log("LOG IN ERROR VALIDATION");
+      handleResult({ success: false, error: validationError });
+      return;
+    }
+
+    return formData;
+  }
+
+  const handleResult = (result: { success?: boolean; error?: string }) => {
     const resultDiv = document.getElementById('result');
     if (resultDiv) {
       if (result?.success) {
-        resultDiv.textContent = successMessage;
-        resultDiv.style.color = 'green';
         onClose();
+        setIsLoggedIn(true);
       } else if (result?.error) {
         resultDiv.textContent = result.error;
         resultDiv.style.color = 'red';
@@ -80,16 +94,10 @@ export default function LoginSigninForm({ onClose, isLogin }: LoginProps) {
       />
       {isLogin ?
         <button onClick={async () => {
-          const form = document.querySelector('form');
-          const formData = new FormData(form!);
-          const validationError = validateInput(formData);
-            if (validationError) {
-              console.log("LOG IN ERROR VALIDATION");
-              handleResult({ success: false, error: validationError }, '');
-              return;
-            }
+          const formData = validate();
+          if (!formData) return;
           const result = await login(formData);
-          handleResult(result || { success: false, error: 'Unexpected error occurred.' }, 'Login successful!');
+          handleResult(result || { success: false, error: 'Unexpected error occurred.' });
         }} 
         type="button" className="w-full bg-red-600 text-white p-2 rounded">
           Log in
@@ -97,16 +105,10 @@ export default function LoginSigninForm({ onClose, isLogin }: LoginProps) {
         :
         <button onClick={async () => {
           console.log("SIGN IN");
-          const form = document.querySelector('form');
-          const formData = new FormData(form!);
-          const validationError = validateInput(formData);
-            if (validationError) {
-              console.log("SIGN UP ERROR VALIDATION");
-              handleResult({ success: false, error: validationError }, '');
-              return;
-            }
+          const formData = validate();
+          if (!formData) return;
           const result = await signup(formData);
-          handleResult(result || { success: false, error: 'Unexpected error occurred.' }, 'Signup successful!');
+          handleResult(result || { success: false, error: 'Unexpected error occurred.' });
         }}
         type="button" className="w-full bg-red-600 text-white p-2 rounded">
           Sign up

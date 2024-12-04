@@ -8,6 +8,8 @@ const passwordErrorMessage = 'Password must be at least 6 characters, contain on
 const nameErrorMessage = 'Name must be 3-15 characters long and can only include letters, numbers, or underscores.';
 
 export async function login(formData: FormData) {
+  console.log("SERVER LOGIN");
+  if (!formData) return;
   const supabase = await createClient();
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
@@ -33,6 +35,7 @@ export async function login(formData: FormData) {
 }
 
 export async function signup(formData: FormData) {
+  if (!formData) return;
   const supabase = await createClient();
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
@@ -103,7 +106,9 @@ export async function logout() {
 
   if (error) {
     console.error('Logout failed:', error.message);
+    return false;
   }
+  return true;
 }
 
 export async function isLoggedIn() {
@@ -117,4 +122,54 @@ export async function isLoggedIn() {
 
   console.log('User is logged in.');
   return true;
+}
+
+export async function updateNickname(newNickname: string): Promise<boolean> {
+  if (!validateName(newNickname)) {
+    console.log("ZLE MENO");
+    return false;
+  }
+
+  const supabase = await createClient();
+  const userID = (await supabase.auth.getUser()).data.user?.id;
+
+  const { error } = await supabase
+    .from('UserData')
+    .update({ nickname: newNickname })
+    .eq('user_id', userID);
+
+  return !error;
+}
+
+export async function deleteUser(): Promise<boolean> {
+  const supabase = await createClient();
+  const userID = (await supabase.auth.getUser()).data.user?.id;
+  const shouldSoftDelete = false;
+
+  if (!userID) return false;
+  logout();
+
+  const { error } = await supabase.auth.admin.deleteUser(userID, shouldSoftDelete);
+
+  console.log(error);
+
+  return !error;
+}
+
+export async function getNickname(): Promise<string | null> {
+  const supabase = await createClient();
+  const userID = (await supabase.auth.getUser()).data.user?.id;
+
+  const { data, error } = await supabase
+    .from('UserData')
+    .select('nickname')
+    .eq('user_id', userID)
+    .single();
+
+    if (error) {
+      console.error('Error fetching nickname:', error);
+      return null;
+    }
+
+  return data.nickname;
 }

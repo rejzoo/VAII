@@ -2,12 +2,23 @@
 
 import { logout } from "@/app/api/auth/actions/actions";
 
-export default function LogoutButton() {
+interface LogoutButtonProps {
+  setIsLoggedIn: (status: boolean) => void;
+}
+
+export default function LogoutButton({ setIsLoggedIn } : LogoutButtonProps) {
   
+  const LogOut = async () => {
+      const success = await logout();
+      if (success) {
+        setIsLoggedIn(false);
+      }
+  }
+
   return (
     <button
-      onClick={logout}
-      className="bg-gray-800 text-white p-2 rounded hover:bg-red-600"
+      onClick={LogOut}
+      className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
     >
       Log out
     </button>

@@ -11,8 +11,6 @@ import { useEffect } from "react";
 export default function Header() {
     const pathname = usePathname();
     const [isLoginOpen, setIsLoginOpen] = useState(false);
-
-
     const [isLoggedInAtr, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
@@ -40,7 +38,7 @@ export default function Header() {
 
         <div className="w-24 flex items-center justify-end">
         {isLoggedInAtr ? (
-        <LogoutButton />
+        <LogoutButton setIsLoggedIn={(status) => setIsLoggedIn(status)}/>
             ) : (
         <button
             className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none"
@@ -50,7 +48,11 @@ export default function Header() {
         </button>
     )}
         </div>
-        {isLoginOpen && <LoginPage onClose={() => setIsLoginOpen(false)} />}
+        {isLoginOpen && 
+        <LoginPage 
+            onClose={() => setIsLoginOpen(false)} 
+            setIsLoggedIn={(status) => setIsLoggedIn(status)} 
+        />}
     </div>
     );
 }

@@ -8,6 +8,7 @@ export default function Menu() {
       <nav className="flex-1 mt-5">
             <MenuLink href="/admin" text="ADMIN" color="text-red-600"/>
             <MenuLink href="/" text="Home"/>
+            <MenuLink href="/profile/details" text="Profile"/>
             <MenuLink href="/tanks" text="Tanks"/>
             <MenuLink href="/servers/EU" text="Servers"/>
             <MenuLink href="/mastery/EU" text="Mastery"/>

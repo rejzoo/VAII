@@ -3,7 +3,12 @@
 import { useState } from 'react';
 import LoginForm from '../components/auth/LoginSigninForm';
 
-export default function LoginPage({ onClose }: { onClose: () => void }) {
+interface LoginPageProps {
+  onClose: () => void;
+  setIsLoggedIn: (status: boolean) => void;
+}
+
+export default function LoginPage({ onClose, setIsLoggedIn }: LoginPageProps) {
   const [isLoginPage, setIsLoginPage] = useState<boolean>(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
@@ -22,7 +27,7 @@ export default function LoginPage({ onClose }: { onClose: () => void }) {
       }}
     >
       <div className="bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-md sm:max-w-lg relative border border-gray-600">
-        <LoginForm onClose={onClose} isLogin={isLoginPage} />
+        <LoginForm onClose={onClose} isLogin={isLoginPage} setIsLoggedIn={setIsLoggedIn} />
         
         {errorMessage && (
           <div className="mt-4 text-red-500 bg-red-100 p-2 rounded text-sm">
