@@ -1,6 +1,8 @@
-import { supabase } from "../../../../../lib/initSupabase";
+import { createClient } from "@/app/utils/supabase/server";
 
 export async function GET() {
+    const supabase = await createClient();
+    
     try {
         const { data, error } = await supabase
             .from('TankListUpdateDates')

@@ -1,7 +1,9 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '../../../../../lib/initSupabase';
+import { createClient } from '@/app/utils/supabase/server';
 
 export async function GET(req: Request, { params }: { params:  Promise<{ tank_id: string }> }) {
+    const supabase = await createClient();
+    
     try {
         const { tank_id } = await params;
         const { data: tankData, error: tankError } = await supabase

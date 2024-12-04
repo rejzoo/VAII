@@ -28,7 +28,7 @@ export default function LoginSigninForm({ onClose, isLogin }: LoginProps) {
     const password = formData.get('password') as string;
     const name = formData.get('name') as string | null;
     
-    if (!isLogin && name && !validateName(name)) {
+    if (!isLogin && name != null && !validateName(name)) {
       return 'CLIENT CHECK: Name must be 3-15 characters long and can only include letters, numbers, or underscores.';
     }
     if (!validateEmail(email)) {
@@ -37,6 +37,8 @@ export default function LoginSigninForm({ onClose, isLogin }: LoginProps) {
     if (!validatePassword(password)) {
       return 'CLIENT CHECK: Password must be at least 6 characters, contain one uppercase letter, and one number.';
     }
+
+    console.log("DATA OK");
     return null;
   };
 
@@ -82,29 +84,31 @@ export default function LoginSigninForm({ onClose, isLogin }: LoginProps) {
           const formData = new FormData(form!);
           const validationError = validateInput(formData);
             if (validationError) {
+              console.log("LOG IN ERROR VALIDATION");
               handleResult({ success: false, error: validationError }, '');
               return;
             }
           const result = await login(formData);
-          console.log(result);
           handleResult(result || { success: false, error: 'Unexpected error occurred.' }, 'Login successful!');
         }} 
-        type="submit" className="w-full bg-red-600 text-white p-2 rounded">
+        type="button" className="w-full bg-red-600 text-white p-2 rounded">
           Log in
         </button> 
         :
         <button onClick={async () => {
+          console.log("SIGN IN");
           const form = document.querySelector('form');
           const formData = new FormData(form!);
           const validationError = validateInput(formData);
             if (validationError) {
+              console.log("SIGN UP ERROR VALIDATION");
               handleResult({ success: false, error: validationError }, '');
               return;
             }
           const result = await signup(formData);
           handleResult(result || { success: false, error: 'Unexpected error occurred.' }, 'Signup successful!');
         }}
-        type="submit" className="w-full bg-red-600 text-white p-2 rounded">
+        type="button" className="w-full bg-red-600 text-white p-2 rounded">
           Sign up
         </button>
       }
