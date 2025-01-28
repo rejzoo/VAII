@@ -4,14 +4,16 @@ import { useEffect, useState } from 'react';
 import TankTableItem from "../components/TankTableItem";
 import { Tank } from '@/types/types';
 import { SearchBarTanks } from '../components/ui/SearchBar';
+import { useAuth } from '../../context/AuthContext';
 
 export default function TankList() {
     const [tanks, setTanks] = useState<Tank[]>([]);
     const [favoriteTanks, setFavoriteTanks] = useState<Tank[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true);
+    const [loadingState, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [showFavorites, setShowFavorites] = useState<boolean>(false);
+    const { isLoggedIn, loading } = useAuth();
 
     useEffect(() => {
         const fetchTanks = async () => {
@@ -64,18 +66,19 @@ export default function TankList() {
         )
     );
 
-    if (loading) {
+    if (loadingState) {
         return <p className="text-center">Loading data...</p>;
     }
 
     if (error) {
         return <p className="text-center text-red-500">Error: {error}</p>;
     }
-
+    console.log(isLoggedIn);
     return (
         <>
             <div className="m-5 bg-gray-700 rounded-lg p-5 mx-auto">
                 <SearchBarTanks value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+                {isLoggedIn && (
                 <div className="flex justify-end mt-3">
                     <button
                         onClick={() => setShowFavorites(!showFavorites)}
@@ -83,7 +86,7 @@ export default function TankList() {
                     >
                         {showFavorites ? "Show All Tanks" : "Show Favorite Tanks"}
                     </button>
-                </div>
+                </div> )}
             </div>
 
             <div className="flex justify-center">

@@ -20,7 +20,7 @@ export default function TankTableItemMasteryMoe(props: TableRowProps) {
             <td className="px-4">
                 <Image
                     src={`/nation/icon-${props.nation}.png`}
-                    alt={props.nation}
+                    alt="nation flag"
                     width={32}
                     height={20}
                     className="w-8 h-5 object-contain"
@@ -29,7 +29,7 @@ export default function TankTableItemMasteryMoe(props: TableRowProps) {
             <td className="px-4 py-2">
                 <Image
                     src={`/type/${props.type}.png`}
-                    alt={props.type}
+                    alt="tank type"
                     width={18}
                     height={20}
                     className="w-5 h-5 object-contain"
