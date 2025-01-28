@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import TankTableItem from "../components/TankTableItem";
-import { Tank } from '@/types/tank';
+import { Tank } from '@/types/types';
 import { SearchBarTanks } from '../components/ui/SearchBar';
 
 export default function TankList() {

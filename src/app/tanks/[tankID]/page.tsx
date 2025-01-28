@@ -1,6 +1,6 @@
 'use client'
 
-import { Tank, TankImages } from "@/types/tank";
+import { Tank, TankImages } from "@/types/types";
 import { useEffect, useState, use } from "react";
 import Image from "next/image";
 import FavoriteToggle from "@/app/components/ui/FavButton";

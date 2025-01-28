@@ -22,3 +22,8 @@ export interface TankImages {
 export interface FavouriteTank {
     TankList: Tank[];
 } 
+
+export interface ServerData {
+    server: string;
+    players_online: number;
+}

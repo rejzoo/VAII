@@ -1,4 +1,4 @@
-import { Tank, TankImages } from "@/types/tank";
+import { Tank, TankImages } from "@/types/types";
 import { createClient } from "@/app/utils/supabase/server";
 
 export async function POST() {
