@@ -27,3 +27,13 @@ export interface ServerData {
     server: string;
     players_online: number;
 }
+
+export interface TankMoe {
+    tank_id: number;
+    percentile1: number;
+    value1: number;
+    percentile2: number;
+    value2: number;
+    percentile3: number;
+    value3: number;
+}

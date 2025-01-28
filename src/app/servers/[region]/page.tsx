@@ -33,9 +33,9 @@ export default function Server() {
 
     if (loading) return <p>Loading...</p>;
 
-    const euData = serverData.filter((item: any) => item.region === 'EU');
-    const naData = serverData.filter((item: any) => item.region === 'NA');
-    const asiaData = serverData.filter((item: any) => item.region === 'ASIA');
+    const euData = serverData.filter((item: any) => item && item.region === 'EU');
+    const naData = serverData.filter((item: any) => item && item.region === 'NA');
+    const asiaData = serverData.filter((item: any) => item && item.region === 'ASIA');
 
     return (
         <div className="p-4 sm:p-6 md:p-4 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
