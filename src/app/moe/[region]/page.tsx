@@ -8,7 +8,8 @@ export default function Moe({ params }: { params: { region: string } }) {
     const [error, setError] = useState<string | null>(null);
     const [moeData, setMoeData] = useState<TankMoe[] | null>(null);
     const [tankList, setTankList] = useState<Tank[]>([]);
-    const [loading, setLoading] = useState(true);
+    const [loadingMoeData, setLoadingMoeData] = useState(true);
+    const [loadingTankList, setLoadingTankList] = useState(true);
 
     useEffect(() => {
         const fetchMoeData = async () => {
@@ -20,6 +21,7 @@ export default function Moe({ params }: { params: { region: string } }) {
                 const result = await response.json();
                 console.log("MOE Data:", result);
                 setMoeData(result);
+                setLoadingMoeData(false);
 
                 if (!response.ok || !result.success) {
                     throw new Error("Invalid MOE data response");
@@ -40,6 +42,7 @@ export default function Moe({ params }: { params: { region: string } }) {
 
                 if (response.ok && result.success && Array.isArray(result.data)) {
                     setTankList(result.data);
+                    setLoadingTankList(false);
                 } else {
                     throw new Error("Invalid tank list data response");
                 }
@@ -50,17 +53,18 @@ export default function Moe({ params }: { params: { region: string } }) {
 
         fetchMoeData();
         fetchTankList();
-        setLoading(false);
     }, []);
 
-    if (loading) return <p className="text-center text-lg font-semibold">Loading...</p>;
+    if (loadingMoeData || loadingTankList) {
+        return <p className="text-center text-lg font-semibold">Loading...</p>;
+    }
 
     if (!moeData || moeData.length === 0) {
-        return <p className="text-center text-lg font-semibold">No MOE data available for the specified region.</p>;
+        return;
     }
 
     if (!tankList || tankList.length === 0) {
-        return <p className="text-center text-lg font-semibold">No tank data available.</p>;
+        return;
     }
 
     const combinedData = moeData.map((tankMoe) => {
@@ -85,6 +89,7 @@ export default function Moe({ params }: { params: { region: string } }) {
                             <th className="px-4 py-2 text-left">65%</th>
                             <th className="px-4 py-2 text-left">85%</th>
                             <th className="px-4 py-2 text-left">95%</th>
+                            <th className="px-4 py-2 text-left">100%</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -92,6 +97,7 @@ export default function Moe({ params }: { params: { region: string } }) {
                             .filter((tank) => tank.tier! >= 5)
                             .map((tank, index) => (
                                 <TankTableItemMasteryMoe
+                                    key={index}
                                     index={index}
                                     nation={tank.nation!}
                                     type={tank.type!}
@@ -100,6 +106,7 @@ export default function Moe({ params }: { params: { region: string } }) {
                                     value1={tank.value1}
                                     value2={tank.value2}
                                     value3={tank.value3}
+                                    value4={tank.value4}
                                 />
                             ))}
                     </tbody>

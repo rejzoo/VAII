@@ -36,4 +36,6 @@ export interface TankMoe {
     value2: number;
     percentile3: number;
     value3: number;
+    percentile4: number;
+    value4: number;
 }

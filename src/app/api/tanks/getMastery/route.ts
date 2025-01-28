@@ -3,10 +3,10 @@ import { createClient } from '@/app/utils/supabase/server';
 
 export async function GET() {
     const apiUrls = {
-        65: "https://api.worldoftanks.eu/wot/tanks/mastery/?application_id=67ea591cc3a72e6e7aa43d66b852a3cd&distribution=damage&percentile=65",
-        85: "https://api.worldoftanks.eu/wot/tanks/mastery/?application_id=67ea591cc3a72e6e7aa43d66b852a3cd&distribution=damage&percentile=85",
-        95: "https://api.worldoftanks.eu/wot/tanks/mastery/?application_id=67ea591cc3a72e6e7aa43d66b852a3cd&distribution=damage&percentile=95",
-        100: "https://api.worldoftanks.eu/wot/tanks/mastery/?application_id=67ea591cc3a72e6e7aa43d66b852a3cd&distribution=damage&percentile=100",
+        50: "https://api.worldoftanks.eu/wot/tanks/mastery/?application_id=67ea591cc3a72e6e7aa43d66b852a3cd&distribution=xp&percentile=50",
+        80: "https://api.worldoftanks.eu/wot/tanks/mastery/?application_id=67ea591cc3a72e6e7aa43d66b852a3cd&distribution=xp&percentile=80",
+        95: "https://api.worldoftanks.eu/wot/tanks/mastery/?application_id=67ea591cc3a72e6e7aa43d66b852a3cd&distribution=xp&percentile=95",
+        99: "https://api.worldoftanks.eu/wot/tanks/mastery/?application_id=67ea591cc3a72e6e7aa43d66b852a3cd&distribution=xp&percentile=99",
     };
 
     const supabase = await createClient();
@@ -39,16 +39,16 @@ export async function GET() {
                     tankDataMap[tankIdNum] = { tank_id: tankIdNum } as Partial<TankMoe>;
                 }
 
-                if (percentile === 65) {
+                if (percentile === 50) {
                     tankDataMap[tankIdNum].percentile1 = percentile;
                     tankDataMap[tankIdNum].value1 = value;
-                } else if (percentile === 85) {
+                } else if (percentile === 80) {
                     tankDataMap[tankIdNum].percentile2 = percentile;
                     tankDataMap[tankIdNum].value2 = value;
                 } else if (percentile === 95) {
                     tankDataMap[tankIdNum].percentile3 = percentile;
                     tankDataMap[tankIdNum].value3 = value;
-                }  else if (percentile === 100) {
+                }  else if (percentile === 99) {
                     tankDataMap[tankIdNum].percentile4 = percentile;
                     tankDataMap[tankIdNum].value4 = value;
                 }
