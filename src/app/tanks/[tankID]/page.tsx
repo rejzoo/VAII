@@ -4,41 +4,46 @@ import { Tank, TankImages } from "@/types/types";
 import { useEffect, useState, use } from "react";
 import Image from "next/image";
 import FavoriteToggle from "@/app/components/ui/FavButton";
+import { useAuth } from '../../../context/AuthContext';
+import RatingStars from "@/app/components/ui/RatingStars";
 
 export default function TankPage( { params }: { params: Promise<{tankID: number}> } ) {
     const { tankID } = use<{tankID: number}>(params);
+    //const { tankID } = params;
     const [tankData, setTankData] = useState<Tank>();
     const [tankDataImages, setTankDataImages] = useState<TankImages>();
     const [error, setError] = useState<string | null>();
-
+    const { isLoggedIn } = useAuth();
 
     useEffect(() => {
-        async function fetchTankData() {
-          try {
-            const responseData = await fetch(`/api/tanks/${tankID}`);
-            const result = await responseData.json();
-            
-            console.log('API Response:', result);
-            if (responseData.ok) {
-              setTankData(result.tankDataToReturn.tankData);
-              setTankDataImages(result.tankDataToReturn.tankImagesData);
-              console.log('Tank data:', tankData);
-              console.log('Images data:', tankDataImages);
-            } else {
-              setError(result.error || 'Failed to fetch tank data');
-            }
-          } catch (err) {
-            setError((err as Error).message || 'Unexpected error occurred');
+      if (!tankID) return;
+
+      async function fetchTankData() {
+        try {
+          const responseData = await fetch(`/api/tanks/tank/${tankID}`);
+          const result = await responseData.json();
+          
+          console.log('API Response:', result);
+          if (responseData.ok) {
+            setTankData(result.tankDataToReturn.tankData);
+            setTankDataImages(result.tankDataToReturn.tankImagesData);
+            console.log('Tank data:', tankData);
+            console.log('Images data:', tankDataImages);
+          } else {
+            setError(result.error || 'Failed to fetch tank data');
           }
+        } catch (err) {
+          setError((err as Error).message || 'Unexpected error occurred');
         }
-    
-        fetchTankData();
+      }
+  
+      fetchTankData();
       
       // found in docs
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [tankID]);
+    }, [tankID]);
 
-      useEffect(() => {
+    useEffect(() => {
         console.log('Tank data updated:', tankData);
     }, [tankData]);
     
@@ -46,23 +51,25 @@ export default function TankPage( { params }: { params: Promise<{tankID: number}
         console.log('Tank images updated:', tankDataImages);
     }, [tankDataImages]);
     
-      if (error) {
-        return <p>Error: {error}</p>;
-      }
-    
-      if (!tankData) {
-        return <p>Loading tank data...</p>;
-      }
+    if (error) {
+      return <p>Error: {error}</p>;
+    }
+  
+    if (!tankData) {
+      return <p>Loading tank data...</p>;
+    }
 
-      if (!tankDataImages) {
-        return <p>Loading images...</p>;
-      }
+    if (!tankDataImages) {
+      return <p>Loading images...</p>;
+    }
 
     return (
       <>
-        <div className="ml-3">
-          <FavoriteToggle tankId={tankID} />
-        </div>
+        { isLoggedIn && 
+          <div className="ml-3">
+            <FavoriteToggle tankId={tankID} />
+          </div>
+        }
       
         <div className="text-white p-4 flex flex-col lg:flex-row items-center lg:items-start space-y-4 lg:space-y-0 lg:space-x-6">
           <div>
@@ -102,6 +109,24 @@ export default function TankPage( { params }: { params: Promise<{tankID: number}
               {tankData.description}
             </p>
           </div>
+        </div>
+
+        <div className="text-white p-6 bg-gray-800 rounded-lg shadow-md w-full max-w-3xl mx-auto mt-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-gray-700 pb-4 mb-4">
+              <h2 className="text-lg md:text-xl font-bold text-center md:text-left">Community Rating</h2>
+              <div className="flex justify-center md:justify-start mt-2 md:mt-0">
+                  <RatingStars tankID={tankData.tank_id} readOnly={true} />
+              </div>
+          </div>
+
+          {isLoggedIn && (
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                  <h2 className="text-lg md:text-xl font-bold text-center md:text-left">Your Rating</h2>
+                  <div className="flex justify-center md:justify-start mt-2 md:mt-0">
+                      <RatingStars tankID={tankData.tank_id} readOnly={false} />
+                  </div>
+              </div>
+          )}
         </div>
       </>
     )

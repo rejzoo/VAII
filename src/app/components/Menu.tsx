@@ -1,22 +1,23 @@
 'use client'
 
-import { useEffect, useState } from 'react';
 import MenuLink from "./ui/MenuLink";
-import { createClient } from '../utils/supabase/client';
+import { useAuth } from '@/context/AuthContext';
 
 export default function Menu() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, user, loading } = useAuth();
 
-  useEffect(() => {
-    const fetchSession = async () => {
-      const {
-        data: { session },
-      } = await createClient().auth.getSession();
-      setIsLoggedIn(!!session); // Set true if the session exists
-    };
+  if (loading) {
+    return (
+      <div className="min-h-screen w-55 bg-gray-800 text-white flex-shrink-0 top-0 left-0 flex flex-col shadow-lg">
+        <h1 className="text-2xl font-bold p-4 border-b border-gray-700">Seal Clubber</h1>
+        <p className="p-4 text-center text-gray-400">Loading...</p>
+      </div>
+    );
+  }
 
-    fetchSession();
-  }, []);
+  console.log('isLoggedIn:', isLoggedIn);
+  console.log('user:', user);
+  console.log('loading:', loading);
 
   return (
     <div className="min-h-screen w-55 bg-gray-800 text-white flex-shrink-0 top-0 left-0 flex flex-col shadow-lg">

@@ -26,7 +26,6 @@ export default function TankList() {
 
                 if (response.ok && result.success) {
                     setTanks(result.data);
-                    console.log(result.data);
                 } else {
                     setError(result.error || 'Failed to fetch tanks data');
                 }

@@ -9,7 +9,7 @@ export async function GET(req: Request, { params }: { params:  Promise<{ tank_id
         const { data: tankData, error: tankError } = await supabase
             .from('TankList')
             .select('*')
-            .eq('tank_id', tank_id)
+            .eq('tank_id', tank_id);
 
         if (tankError) {
             return NextResponse.json(
