@@ -5,6 +5,7 @@ import TankTableItem from "../components/TankTableItem";
 import { Tank } from '@/types/types';
 import { SearchBarTanks } from '../components/ui/SearchBar';
 import { useAuth } from '../../context/AuthContext';
+import LoadingComponent from '../components/ui/LoadingComponent';
 
 export default function TankList() {
     const [tanks, setTanks] = useState<Tank[]>([]);
@@ -66,7 +67,7 @@ export default function TankList() {
     );
 
     if (loadingState) {
-        return <p className="text-center">Loading data...</p>;
+        return <LoadingComponent message="Loading data..." />;
     }
 
     if (error) {

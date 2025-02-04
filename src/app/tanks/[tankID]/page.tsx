@@ -6,6 +6,7 @@ import Image from "next/image";
 import FavoriteToggle from "@/app/components/ui/FavButton";
 import { useAuth } from '../../../context/AuthContext';
 import RatingStars from "@/app/components/ui/RatingStars";
+import LoadingComponent from "@/app/components/ui/LoadingComponent";
 
 export default function TankPage( { params }: { params: Promise<{tankID: number}> } ) {
     const { tankID } = use<{tankID: number}>(params);
@@ -43,24 +44,25 @@ export default function TankPage( { params }: { params: Promise<{tankID: number}
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tankID]);
 
-    useEffect(() => {
-        console.log('Tank data updated:', tankData);
-    }, [tankData]);
+    // Debug
+    // useEffect(() => {
+    //     console.log('Tank data updated:', tankData);
+    // }, [tankData]);
     
-    useEffect(() => {
-        console.log('Tank images updated:', tankDataImages);
-    }, [tankDataImages]);
+    // useEffect(() => {
+    //     console.log('Tank images updated:', tankDataImages);
+    // }, [tankDataImages]);
     
     if (error) {
       return <p>Error: {error}</p>;
     }
   
     if (!tankData) {
-      return <p>Loading tank data...</p>;
+      return <LoadingComponent message="Loading tank data..." />;
     }
 
     if (!tankDataImages) {
-      return <p>Loading images...</p>;
+      return <LoadingComponent message="Loading images..." />;
     }
 
     return (

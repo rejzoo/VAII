@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import PieChart from "../../components/PieChart";
+import LoadingComponent from "@/app/components/ui/LoadingComponent";
 
 export default function Server() {
     const [error, setError] = useState<string | null>(null);
@@ -31,7 +32,10 @@ export default function Server() {
         fetchTanks();
     }, []);
 
-    if (loading) return <p>Loading...</p>;
+    if (loading) {
+        return <LoadingComponent message="Loading data..." />;
+    }
+
 
     const euData = serverData.filter((item: any) => item && item.region === 'EU');
     const naData = serverData.filter((item: any) => item && item.region === 'NA');

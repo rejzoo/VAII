@@ -1,6 +1,7 @@
 'use client';
 
 import TankTableItemMasteryMoe from "@/app/components/TankTableItemMasteryMoe";
+import LoadingComponent from "@/app/components/ui/LoadingComponent";
 import { Tank, TankMoe } from "@/types/types";
 import { useEffect, useState } from "react";
 
@@ -56,7 +57,7 @@ export default function Moe({ params }: { params: { region: string } }) {
     }, []);
 
     if (loadingMoeData || loadingTankList) {
-        return <p className="text-center text-lg font-semibold">Loading...</p>;
+        return <LoadingComponent message="Loading data..." />;
     }
 
     if (!moeData || moeData.length === 0) {
