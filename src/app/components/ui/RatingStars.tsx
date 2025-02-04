@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 interface RatingStarsProps {
     tankID: number;
@@ -65,26 +65,57 @@ export default function RatingStars({ tankID, readOnly = false }: RatingStarsPro
         }
     };
 
+    const handleDelete = async () => {
+        if (!isLoggedIn) return alert('You need to be logged in to delete your rating!');
+
+        try {
+            const response = await fetch(`/api/tanks/rating/${tankID}`, {
+                method: 'DELETE',
+            });
+
+            const result = await response.json();
+            if (result.success) {
+                setRating(0);
+            } else {
+                console.error('Error deleting rating:', result.error);
+            }
+        } catch (error) {
+            console.error('Network error:', error);
+        }
+    };
+
     return (
         <div className="flex items-center space-x-1">
             {loading ? (
                 <p className="text-gray-400">Loading...</p>
             ) : (
-                [...Array(5)].map((_, index) => {
-                    const starValue = index + 1;
-                    return (
-                        <FontAwesomeIcon
-                            icon={faStar}
-                            key={index}
-                            className={`cursor-pointer transition ${starValue <= rating ? getStarColor() : 'text-gray-400'} ${
-                                readOnly ? 'cursor-default' : 'cursor-pointer'
-                            }`}
-                            onClick={() => !readOnly && handleRating(starValue)}
-                            onMouseEnter={() => !readOnly && setHover(starValue)}
-                            onMouseLeave={() => !readOnly && setHover(null)}
-                        />
-                    );
-                })
+                <>
+                    {!readOnly && rating > 0 && (
+                        <button
+                            onClick={handleDelete}
+                            className="ml-3 text-red-500 hover:text-red-700 transition mr-3"
+                            title="Delete Rating"
+                        >
+                            <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                    )}
+
+                    {[...Array(5)].map((_, index) => {
+                        const starValue = index + 1;
+                        return (
+                            <FontAwesomeIcon
+                                icon={faStar}
+                                key={index}
+                                className={`cursor-pointer transition ${starValue <= rating ? getStarColor() : 'text-gray-400'} ${
+                                    readOnly ? 'cursor-default' : 'cursor-pointer'
+                                }`}
+                                onClick={() => !readOnly && handleRating(starValue)}
+                                onMouseEnter={() => !readOnly && setHover(starValue)}
+                                onMouseLeave={() => !readOnly && setHover(null)}
+                            />
+                        );
+                    })}
+                </>
             )}
         </div>
     );

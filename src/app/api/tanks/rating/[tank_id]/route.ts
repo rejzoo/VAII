@@ -4,7 +4,7 @@ import { useAuth } from '../../../../../context/AuthContext';
 
 export async function GET(req: Request, { params }: { params: { tank_id: string } }) {
     const supabase = await createClient();
-    const user = (await supabase.auth.getUser());
+    const user = await supabase.auth.getUser();
 
     try {
         const { tank_id } = await params;
@@ -65,6 +65,33 @@ export async function POST(req: Request, { params }: { params:  Promise<{ tank_i
             .upsert([{ tank_id, user_id: user.id, rating }], { onConflict: 'user_id' });
 
     
+
+        if (error) {
+            return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+        }
+
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        return NextResponse.json({ success: false, error: 'Unexpected error occurred' }, { status: 500 });
+    }
+}
+
+export async function DELETE(req: Request, { params }: { params: { tank_id: string } }) {
+    const supabase = await createClient();
+
+    try {
+        const { data: { user } } = await supabase.auth.getUser();
+        if (!user) {
+            return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+        }
+
+        const { tank_id } = await params;
+
+        const { error } = await supabase
+            .from('ratings')
+            .delete()
+            .eq('tank_id', tank_id)
+            .eq('user_id', user.id);
 
         if (error) {
             return NextResponse.json({ success: false, error: error.message }, { status: 500 });
