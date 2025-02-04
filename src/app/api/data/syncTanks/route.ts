@@ -65,10 +65,11 @@ export async function POST() {
         const currentDate = new Date();
         const date = currentDate.toISOString().split('T')[0];
         const time = currentDate.toTimeString().split(' ')[0];
+        const update_type = 'tanklist';
 
         const { error: insertError } = await supabase
-            .from('TankListUpdateDates')
-            .insert([{ date, time }]);
+            .from('UpdateDates')
+            .insert([{ date, time, update_type}]);
 
         if (insertError) {
             return new Response(

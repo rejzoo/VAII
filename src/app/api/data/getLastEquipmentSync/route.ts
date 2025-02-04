@@ -7,7 +7,7 @@ export async function GET() {
         const { data, error } = await supabase
             .from('UpdateDates')
             .select('date, time')
-            .eq('update_type', 'tanklist')
+            .eq('update_type', 'equipmentlist')
             .order('id', { ascending: false })
             .limit(1);
 

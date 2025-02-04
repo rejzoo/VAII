@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
 
@@ -6,43 +6,59 @@ export default function Page() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
     const [messageColor, setMessageColor] = useState('');
-    const [lastUpdate, setLastUpdate] = useState<string | null>(null);
+    const [lastTankUpdate, setLastTankUpdate] = useState<string | null>(null);
+    const [lastEquipmentUpdate, setLastEquipmentUpdate] = useState<string | null>(null);
+
+    const fetchLastUpdates = async () => {
+        try {
+            const tankResponse = await fetch('../api/data/getLastTankSync');
+            const tankResult = await tankResponse.json();
+            if (tankResponse.ok && tankResult.success) {
+                setLastTankUpdate(tankResult.lastUpdate);
+            } else {
+                setLastTankUpdate(null);
+            }
+
+            const equipmentResponse = await fetch('../api/data/getLastEquipmentSync');
+            const equipmentResult = await equipmentResponse.json();
+            if (equipmentResponse.ok && equipmentResult.success) {
+                setLastEquipmentUpdate(equipmentResult.lastUpdate);
+            } else {
+                setLastEquipmentUpdate(null);
+            }
+        } catch (error) {
+            console.error('Failed to fetch last updates:', error);
+            setLastTankUpdate(null);
+            setLastEquipmentUpdate(null);
+        }
+    };
 
     useEffect(() => {
-        const fetchLastUpdate = async () => {
-            try {
-                const response = await fetch('../api/data/getLastTankSync');
-                const result = await response.json();
-
-                if (response.ok && result.success) {
-                    setLastUpdate(result.lastUpdate);
-                } else {
-                    setLastUpdate(null);
-                }
-            } catch (error) {
-                console.error('Failed to fetch last update:', error);
-                setLastUpdate(null);
-            }
-        };
-
-        fetchLastUpdate();
+        fetchLastUpdates();
     }, []);
 
-    const handleUpdate = async () => {
+    const handleUpdateTanks = async () => {
+        await handleUpdate('../api/data/syncTanks', 'Tank data updated successfully!');
+    };
+
+    const handleUpdateEquipment = async () => {
+        await handleUpdate('../api/data/syncEquipment', 'Equipment data updated successfully!');
+    };
+
+    const handleUpdate = async (apiUrl: string, successMessage: string) => {
         setLoading(true);
         setMessage('');
         setMessageColor('');
 
         try {
-            const response = await fetch('../api/data/syncTanks', {
-                method: 'POST',
-            });
-
+            const response = await fetch(apiUrl, { method: 'POST' });
             const result = await response.json();
 
             if (response.ok && result.success) {
-                setMessage('Data updated successfully!');
+                setMessage(successMessage);
                 setMessageColor('text-green-500');
+
+                await fetchLastUpdates();
             } else {
                 setMessage(`Error updating data: ${result.error}`);
                 setMessageColor('text-red-500');
@@ -58,15 +74,27 @@ export default function Page() {
     return (
         <div>
             <div className="flex flex-row space-x-4 items-center ml-10 mt-10">
-                <p className="font-bold text-xl text-white">Update tanks records in database from API</p>
+                <p className="font-bold text-xl text-white">Update Tank Records in Database from API</p>
                 <button 
-                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none"
-                    onClick={handleUpdate}
+                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700 focus:outline-none"
+                    onClick={handleUpdateTanks}
                     disabled={loading}
                 >
                     {loading ? 'Updating...' : 'UPDATE'}
                 </button>
-                <p className="text-gray-200">Last update: {lastUpdate ? lastUpdate : 'No updates yet'}</p>
+                <p className="text-gray-200">Last update: {lastTankUpdate ? lastTankUpdate : 'No updates yet'}</p>
+            </div>
+
+            <div className="flex flex-row space-x-4 items-center ml-10 mt-5">
+                <p className="font-bold text-xl text-white">Update Equipment Records in Database from API</p>
+                <button 
+                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-700 focus:outline-none"
+                    onClick={handleUpdateEquipment}
+                    disabled={loading}
+                >
+                    {loading ? 'Updating...' : 'UPDATE'}
+                </button>
+                <p className="text-gray-200">Last update: {lastEquipmentUpdate ? lastEquipmentUpdate : 'No updates yet'}</p>
             </div>
 
             <div className="flex flex-row space-x-4 items-center ml-10 mt-5">
@@ -74,5 +102,5 @@ export default function Page() {
                 {message && <p className={`font-bold text-xl ${messageColor}`}>{message}</p>}
             </div>
         </div>
-    )
+    );
 }
