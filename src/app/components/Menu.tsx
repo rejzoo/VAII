@@ -1,11 +1,29 @@
 'use client'
 
+import { useEffect, useState } from "react";
 import MenuLink from "./ui/MenuLink";
 import { useAuth } from '@/context/AuthContext';
+import { getUserRole } from "../api/auth/actions/actions";
 
 export default function Menu() {
   const { isLoggedIn, user, loading } = useAuth();
+  const [userRole, setUserRole] = useState<string | null>(null);
 
+  useEffect(() => {
+    const fetchRole = async () => {
+      try {
+        const userRole = await getUserRole();
+        if (userRole) {
+          setUserRole(userRole);
+        }
+      } catch (error) {
+        console.error('Error fetching role:', error);
+      }
+    }
+
+    fetchRole();
+  }, []);
+  
   if (loading) {
     return (
       <div className="min-h-screen w-55 bg-gray-800 text-white flex-shrink-0 top-0 left-0 flex flex-col shadow-lg">
@@ -26,7 +44,7 @@ export default function Menu() {
       <nav className="flex-1 mt-5">
         {isLoggedIn && (
           <>
-            <MenuLink href="/admin" text="ADMIN" color="text-red-600"/>
+            { userRole == "admin" && (<MenuLink href="/admin" text="ADMIN" color="text-red-600"/>)}
             <MenuLink href="/profile/details" text="Profile"/>
           </>
         )}
