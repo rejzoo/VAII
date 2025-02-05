@@ -173,3 +173,18 @@ export async function getNickname(): Promise<string | null> {
 
   return data.nickname;
 }
+
+export async function getUserDetails(): Promise<{ email: string | null; createdAtDate: string | null }> {
+  const supabase = await createClient();
+  const email = (await supabase.auth.getUser()).data.user?.email;
+  const createdAt = (await supabase.auth.getUser()).data.user?.created_at;
+
+  if (!email || !createdAt) {
+    console.error("No user logged in.");
+    return { email: null, createdAtDate: null };
+  }
+
+  const createdAtDate = new Date(createdAt).toISOString().replace("T", " ").split(".")[0];;
+
+  return { email, createdAtDate };
+}

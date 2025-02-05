@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from "react";
-import { updateNickname, deleteUser, getNickname, isLoggedIn } from "@/app/api/auth/actions/actions";
+import { updateNickname, deleteUser, getNickname, isLoggedIn, getUserDetails } from "@/app/api/auth/actions/actions";
 import { validateName } from "@/app/utils/validators/validators";
 
 export default function ProfileDetails() {
@@ -9,6 +9,10 @@ export default function ProfileDetails() {
     const [nicknameToSet, setNicknameToSet] = useState('');
     const [message, setMessage] = useState('');
     const [loggedIn, setLoggedIn] = useState(false);
+    const [userData, setUserData] = useState<{ email: string | null; createdAtDate: string | null }>({
+      email: null,
+      createdAtDate: null
+  });
 
     useEffect(() => {
         const fetchNickname = async () => {
@@ -36,6 +40,15 @@ export default function ProfileDetails() {
         fetchNickname();
         checkLogged();
       }, []);
+
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            const details = await getUserDetails();
+            setUserData(details);
+        };
+
+        fetchUserDetails();
+    }, []);
 
     const handleNicknameChange = async () => {
         if (!validateName(nicknameToSet)) {
@@ -86,6 +99,8 @@ return (
         <div className="mb-6">
         <h2 className="text-xl font-semibold text-white">
             Logged in as: <span className="text-red-500">{nickname}</span>
+            <p>Email: {userData.email || 'Not available'}</p>
+            <p>Account created: {userData.createdAtDate || 'Not available'}</p>
         </h2>
         </div>
 
