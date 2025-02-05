@@ -90,7 +90,7 @@ export async function signup(formData: FormData) {
 
   const { error: insertError } = await supabase
     .from('UserData')
-    .insert({ user_id: userId, nickname: name });
+    .insert({ user_id: userId, nickname: name, role: "user" });
 
   if (insertError) {
     console.error('Failed to insert nickname into UserData:', insertError.message);
@@ -174,17 +174,48 @@ export async function getNickname(): Promise<string | null> {
   return data.nickname;
 }
 
-export async function getUserDetails(): Promise<{ email: string | null; createdAtDate: string | null }> {
+export async function getUserDetails(): Promise<{ email: string | null; createdAtDate: string | null; role: string | null }> {
   const supabase = await createClient();
-  const email = (await supabase.auth.getUser()).data.user?.email;
-  const createdAt = (await supabase.auth.getUser()).data.user?.created_at;
-
-  if (!email || !createdAt) {
+  const user = (await supabase.auth.getUser()).data.user;
+  
+  if (!user) {
     console.error("No user logged in.");
-    return { email: null, createdAtDate: null };
+    return { email: null, createdAtDate: null, role: null };
+  }
+
+  const email = user.email;
+  const createdAt = user.created_at;
+
+  const { data } = await supabase
+    .from('UserData')
+    .select('role')
+    .eq('user_id', user.id)
+    .single();
+
+  if (!data?.role || !email || !createdAt) {
+    console.error("Data missing.");
+    return { email: null, createdAtDate: null , role: null};
   }
 
   const createdAtDate = new Date(createdAt).toISOString().replace("T", " ").split(".")[0];;
 
-  return { email, createdAtDate };
+  return { email: email, createdAtDate: createdAtDate, role: data.role };
+}
+
+export async function getUserRole(): Promise<string | null> {
+  const supabase = await createClient();
+  const userID = (await supabase.auth.getUser()).data.user?.id;
+
+  const { data, error } = await supabase
+    .from('UserData')
+    .select('role')
+    .eq('user_id', userID)
+    .single();
+
+    if (error) {
+      console.error('Error fetching role:', error);
+      return null;
+    }
+
+  return data.role;
 }

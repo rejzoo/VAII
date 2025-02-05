@@ -61,10 +61,8 @@ export async function POST(req: Request, { params }: { params:  Promise<{ tank_i
         }
 
         const { error } = await supabase
-            .from('ratings')
+            .from('Ratings')
             .upsert([{ tank_id, user_id: user.id, rating }], { onConflict: 'user_id' });
-
-    
 
         if (error) {
             return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -88,7 +86,7 @@ export async function DELETE(req: Request, { params }: { params: { tank_id: stri
         const { tank_id } = await params;
 
         const { error } = await supabase
-            .from('ratings')
+            .from('Ratings')
             .delete()
             .eq('tank_id', tank_id)
             .eq('user_id', user.id);

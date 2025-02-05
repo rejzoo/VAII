@@ -9,9 +9,10 @@ export default function ProfileDetails() {
     const [nicknameToSet, setNicknameToSet] = useState('');
     const [message, setMessage] = useState('');
     const [loggedIn, setLoggedIn] = useState(false);
-    const [userData, setUserData] = useState<{ email: string | null; createdAtDate: string | null }>({
+    const [userData, setUserData] = useState<{ email: string | null; createdAtDate: string | null; role: string | null }>({
       email: null,
-      createdAtDate: null
+      createdAtDate: null,
+      role: null
   });
 
     useEffect(() => {
@@ -101,6 +102,7 @@ return (
             Logged in as: <span className="text-red-500">{nickname}</span>
             <p>Email: {userData.email || 'Not available'}</p>
             <p>Account created: {userData.createdAtDate || 'Not available'}</p>
+            <p>Role: {userData.role || 'Not available'}</p>
         </h2>
         </div>
 
