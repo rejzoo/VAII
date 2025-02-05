@@ -67,3 +67,39 @@ export async function POST() {
         );
     }
 };
+
+export async function DELETE() {
+    const supabase = await createClient();
+
+    try {
+        const { error: tankListError } = await supabase
+            .from('EquipmentList')
+            .delete()
+            .neq('provision_id', 0);
+
+        if (tankListError) {
+            return new Response(JSON.stringify({ success: false, error: tankListError.message }), { status: 500 });
+        }
+
+        const currentDate = new Date();
+        const date = currentDate.toISOString().split('T')[0];
+        const time = currentDate.toTimeString().split(' ')[0];
+        const update_type = 'delete_equipmentlist';
+
+        const { error: insertError } = await supabase
+            .from('UpdateDates')
+            .insert([{ date, time, update_type}]);
+
+        if (insertError) {
+            return new Response(
+                JSON.stringify({ success: false, error: insertError.message }),
+                { status: 500 }
+            );
+        }
+
+        return new Response(JSON.stringify({ success: true, message: 'All tank data deleted successfully' }), { status: 200 });
+
+    } catch (err) {
+        return new Response(JSON.stringify({ success: false, error: (err as Error).message || 'Unexpected error occurred' }), { status: 500 });
+    }
+}

@@ -4,28 +4,31 @@ export async function GET() {
     const supabase = await createClient();
     
     try {
-        const { data, error } = await supabase
+        const { data: updateData, error: updateError } = await supabase
             .from('UpdateDates')
             .select('date, time')
             .eq('update_type', 'tanklist')
             .order('id', { ascending: false })
             .limit(1);
 
-        if (error) {
+        const { data: deleteData, error: deleteError } = await supabase
+            .from('UpdateDates')
+            .select('date, time')
+            .eq('update_type', 'delete_tanklist')
+            .order('id', { ascending: false })
+            .limit(1);
+
+        if (updateError || deleteError) {
             return new Response(
-                JSON.stringify({ success: false, error: error.message }),
+                JSON.stringify({ success: false, error: updateError?.message || deleteError?.message }),
                 { status: 500 }
             );
         }
 
-        if (data.length === 0) {
-            return new Response(JSON.stringify({ success: true, lastUpdate: null }), {
-                status: 200,
-            });
-        }
+        const lastUpdate = updateData.length > 0 ? `${updateData[0].date} ${updateData[0].time}` : null;
+        const lastDelete = deleteData.length > 0 ? `${deleteData[0].date} ${deleteData[0].time}` : null;
 
-        const lastUpdate = `${data[0].date} ${data[0].time}`;
-        return new Response(JSON.stringify({ success: true, lastUpdate }), {
+        return new Response(JSON.stringify({ success: true, lastUpdate, lastDelete }), {
             status: 200,
         });
     } catch (err) {
