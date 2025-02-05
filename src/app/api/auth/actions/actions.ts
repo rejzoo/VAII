@@ -90,7 +90,7 @@ export async function signup(formData: FormData) {
 
   const { error: insertError } = await supabase
     .from('UserData')
-    .insert({ user_id: userId, nickname: name, role: "user" });
+    .insert({ user_id: userId, nickname: name });
 
   if (insertError) {
     console.error('Failed to insert nickname into UserData:', insertError.message);
