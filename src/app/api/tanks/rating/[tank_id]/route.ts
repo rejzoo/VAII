@@ -9,7 +9,7 @@ export async function GET(req: Request, { params }: { params: { tank_id: string 
     try {
         const { tank_id } = await params;
         const { data: avgData, error: avgError } = await supabase
-            .from('ratings')
+            .from('Ratings')
             .select('rating')
             .eq('tank_id', tank_id);
 
@@ -25,7 +25,7 @@ export async function GET(req: Request, { params }: { params: { tank_id: string 
         let userRating = null;
         if (user) {
             const { data: userData, error: userError } = await supabase
-                .from('ratings')
+                .from('Ratings')
                 .select('rating')
                 .eq('tank_id', tank_id)
                 .eq('user_id', user.data.user?.id)
