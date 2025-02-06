@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Equipment } from "@/types/types";
 import Image from "next/image";
+import LoadingComponent from "./LoadingComponent";
 
 interface EquipmentSelectorProps {
   tankID: number;
@@ -56,64 +57,84 @@ export default function EquipmentSelector({ tankID }: EquipmentSelectorProps) {
     }
   };
 
+  const cleanEquipmentName = (name: string) => {
+    return name
+      .replace(/\b(Bounty|Improved|Innovative|Experimental|T1|T2|T3|Class|1|2|3)\b/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  };
+
+  if (loading) {
+    return <LoadingComponent message="Loading equipments..." />;
+  }
+
   return (
     <div className="bg-gray-800 text-white p-4 rounded-lg shadow-md">
-      <h2 className="text-lg font-bold mb-2">Select Equipment</h2>
-
-      {loading ? (
-        <p>Loading equipment...</p>
-      ) : (
-        <>
-          <div className="flex space-x-2">
-            {[0, 1, 2].map((index) => (
-              <div key={index} className="relative">
-                <select
-                  className="appearance-none w-24 h-24 bg-gray-700 rounded-lg text-white p-2 cursor-pointer text-center"
-                  value={selectedEquipment[index] || ""}
-                  onChange={(e) => {
-                    const newSelection = [...selectedEquipment];
-                    newSelection[index] = e.target.value ? parseInt(e.target.value) : null;
-                    setSelectedEquipment(newSelection);
-                  }}
-                >
-                  <option value="">Select</option>
-                  {equipmentList.map((item) => (
-                    <option key={item.provision_id} value={item.provision_id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-
-                {selectedEquipment[index] !== null && (
-                  <div
-                    className="absolute top-0 left-0 w-24 h-24 flex items-center justify-center"
-                    onClick={() => {
-                      const newSelection = [...selectedEquipment];
-                      newSelection[index] = null;
-                      setSelectedEquipment(newSelection);
-                    }}
-                  >
-                    <Image
-                      src={equipmentList.find(e => e.provision_id === selectedEquipment[index])?.image || ""}
-                      alt="Equipment Icon"
-                      width={50}
-                      height={50}
-                      className="object-contain"
-                    />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          <button
-            className="mt-4 w-max bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={handleSave}
+  <h2 className="text-lg font-bold mb-2">Select Equipment</h2>
+  <div className="flex space-x-2">
+    {[0, 1, 2].map((index) => (
+      <div key={index} className="relative w-20 h-20">
+        {!selectedEquipment[index] && (
+          <select
+            className="appearance-none w-20 h-20 bg-gray-700 rounded-lg text-white p-2 cursor-pointer text-center"
+            value={selectedEquipment[index] || ""}
+            onChange={(e) => {
+              //Creates copy of a list
+              const newSelection = [...selectedEquipment];
+              newSelection[index] = e.target.value ? parseInt(e.target.value) : null;
+              setSelectedEquipment(newSelection);
+            }}
           >
-            Save Selection
-          </button>
-        </>
-      )}
-    </div>
+            <option value="">Select</option>
+            {equipmentList.map((item) => {
+              const baseName = cleanEquipmentName(item.name);
+
+              return (
+                <option
+                  key={item.provision_id}
+                  value={item.provision_id}
+                  disabled={selectedEquipment
+                    .map((selectedId) => {
+                      const selectedItem = equipmentList.find(e => e.provision_id === selectedId);
+                      return selectedItem ? cleanEquipmentName(selectedItem.name) : null;
+                    })
+                    .includes(baseName)}
+                >
+                  {item.name}
+                </option>
+              );
+            })}
+          </select>
+        )}
+
+        {selectedEquipment[index] !== null && (
+          <div
+            className="absolute top-0 left-0 w-20 h-20 flex items-center justify-center bg-gray-700 rounded-lg cursor-pointer"
+            onClick={() => {
+              const newSelection = [...selectedEquipment];
+              newSelection[index] = null;
+              setSelectedEquipment(newSelection);
+            }}
+          >
+            <Image
+              src={equipmentList.find(e => e.provision_id === selectedEquipment[index])?.image || ""}
+              alt="Equipment Icon"
+              width={45}
+              height={45}
+              className="object-contain"
+            />
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <button
+    className="mt-4 w-max bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    onClick={handleSave}
+  >
+    Save Selection
+  </button>
+</div>
   );
 }
