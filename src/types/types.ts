@@ -39,3 +39,11 @@ export interface TankMoe {
     percentile4: number;
     value4: number;
 }
+
+export interface Equipment {
+    provision_id: number;
+    name: string;
+    type: string;
+    description: string;
+    image: string;
+  }

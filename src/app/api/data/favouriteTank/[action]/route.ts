@@ -13,7 +13,7 @@ export async function POST(req: NextRequest, { params }: { params: { action: str
 
     console.log(data);
 
-    const { action } = params;
+    const { action } = await params;
     const { tankId } = await req.json();
     const userId = data.user.id;
 
