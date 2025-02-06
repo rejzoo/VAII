@@ -36,7 +36,6 @@ export default function Server() {
         return <LoadingComponent message="Loading data..." />;
     }
 
-
     const euData = serverData.filter((item: any) => item && item.region === 'EU');
     const naData = serverData.filter((item: any) => item && item.region === 'NA');
     const asiaData = serverData.filter((item: any) => item && item.region === 'ASIA');
