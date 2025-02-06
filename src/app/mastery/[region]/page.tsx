@@ -3,6 +3,7 @@
 
 import TankTableItemMasteryMoe from "@/app/components/TankTableItemMasteryMoe";
 import LoadingComponent from "@/app/components/ui/LoadingComponent";
+import TankFilterMenu from "@/app/components/ui/TankFilterMenu";
 import { Tank, TankMoe } from "@/types/types";
 import { useEffect, useState } from "react";
 
@@ -12,6 +13,11 @@ export default function Mastery( {params}: {params : {region: string}} ) {
     const [tankList, setTankList] = useState<Tank[]>([]);
     const [loadingMoeData, setLoadingMoeData] = useState(true);
     const [loadingTankList, setLoadingTankList] = useState(true);
+
+    const [searchQuery, setSearchQuery] = useState<string>('');
+    const [selectedNations, setSelectedNations] = useState<string[]>([]);
+    const [selectedTiers, setSelectedTiers] = useState<number[]>([]);
+    const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchMoeData = async () => {
@@ -69,7 +75,9 @@ export default function Mastery( {params}: {params : {region: string}} ) {
         return;
     }
 
-    const combinedData = moeData.map((tankMoe) => {
+    const combinedData = moeData
+        .filter(tankMoe => tankList.some(tank => tank.tank_id === tankMoe.tank_id))
+        .map((tankMoe) => {
         const matchingTank = tankList.find((tank) => tank.tank_id === tankMoe.tank_id);
         return {
             ...tankMoe,
@@ -77,9 +85,51 @@ export default function Mastery( {params}: {params : {region: string}} ) {
         };
     });
 
+    const filteredTanks = combinedData.filter((tank) =>
+        tank.name!.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(
+            searchQuery.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+        ) &&
+        (selectedNations.length > 0 ? selectedNations.includes(tank.nation!) : true) &&
+        (selectedTiers.length > 0 ? selectedTiers.includes(tank.tier!) : true) &&
+        (selectedTypes.length > 0 ? selectedTypes.includes(tank.type!) : true)
+    );
+
+    const uniqueNations = Array.from(new Set(tankList.map((tank) => tank.nation)));
+    const uniqueTypes = Array.from(new Set(tankList.map((tank) => tank.type)));
+
+    // Function to toggle tier selection
+    const toggleSelection = (setSelectedList: any, value: any) => {
+        setSelectedList((prev: any[]) => 
+            prev.includes(value) ? prev.filter((item: any) => item !== value) : [...prev, value]
+        );
+    };
+
+    const resetFilters = () => {
+        setSelectedTiers([]);
+        setSelectedNations([]);
+        setSelectedTypes([]);
+    };
+
     return (
         <div className="p-4">
             <h1 className="text-3xl font-bold mb-6 text-center text-white">Mastery Page</h1>
+
+            <TankFilterMenu
+                selectedTiers={selectedTiers}
+                setSelectedTiers={setSelectedTiers}
+                selectedNations={selectedNations}
+                setSelectedNations={setSelectedNations}
+                selectedTypes={selectedTypes}
+                setSelectedTypes={setSelectedTypes}
+                uniqueNations={uniqueNations}
+                uniqueTypes={uniqueTypes}
+                searchQuery={searchQuery}
+                setSearchQuery={setSearchQuery}
+                toggleSelection={toggleSelection}
+                resetFilters={resetFilters}
+                numberOfTanks={filteredTanks.length}
+            />
+                        
             <div className="overflow-x-auto bg-gray-800 rounded-lg shadow-md">
                 <table className="min-w-full border-collapse border border-gray-700">
                     <thead className="bg-gray-800 text-white text-xl">
@@ -95,7 +145,7 @@ export default function Mastery( {params}: {params : {region: string}} ) {
                         </tr>
                     </thead>
                     <tbody>
-                        {combinedData
+                        {filteredTanks
                             .map((tank, index) => (
                                 <TankTableItemMasteryMoe
                                     key={index}
