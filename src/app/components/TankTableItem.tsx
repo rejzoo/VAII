@@ -12,7 +12,7 @@ export default function TankTableItem(props: TankTableItemProps) {
   return (
     <a
       href={`/tanks/${encodeURIComponent(props.tankID)}`}
-      className="flex flex-row flex-shrink-0 items-center space-x-2 p-2 bg-gray-700 hover:bg-gray-800 rounded m-0"
+      className="flex items-center space-x-2 p-2 bg-gradient-to-b from-gray-700 to-gray-800 hover:from-gray-600 hover:to-gray-700 rounded m-0 transition-colors duration-200"
       style={{ width: '200px', height: '40px' }}
     >
       <Image
@@ -32,4 +32,6 @@ export default function TankTableItem(props: TankTableItemProps) {
       <span className="text-sm font-medium text-white">{props.name}</span>
     </a>
   );
+  
+  
 }

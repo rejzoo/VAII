@@ -115,20 +115,22 @@ export default function TankList() {
                 numberOfTanks={filteredTanks.length}
             />
 
-            <div className="flex justify-center">
-                <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-7 gap-2">
-                    {filteredTanks.map((tank, index) => (
-                        <TankTableItem
-                            key={index}
-                            tankID={tank.tank_id}
-                            nation={tank.nation}
-                            typeIcon={tank.type}
-                            name={tank.name}
-                            link={tank.name}
-                        />
-                    ))}
-                </div>
-            </div>
+<div className="flex justify-center">
+  <div className="p-4 bg-gradient-to-b to-indigo-700 from-purple-800 rounded-lg">
+    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 gap-x-15">
+      {filteredTanks.map((tank, index) => (
+        <TankTableItem
+          key={index}
+          tankID={tank.tank_id}
+          nation={tank.nation}
+          typeIcon={tank.type}
+          name={tank.name}
+          link={tank.name}
+        />
+      ))}
+    </div>
+  </div>
+</div>
         </>
     );
 }

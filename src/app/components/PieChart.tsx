@@ -74,34 +74,31 @@ export default function CircleGraph({ region, data }: CircleGraphProps) {
 
     return (
         <div className="flex justify-center items-center p-4 md:p-10">
-            <div className="bg-gray-700 rounded-lg shadow-lg p-6 md:p-8 w-full max-w-md md:max-w-xl">
-                <h1 className="text-xl md:text-2xl font-bold text-center mb-4 md:mb-6 text-white">
-                    {region}
-                </h1>
-    
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 md:mb-6">
-                    {data.map((server, index) => (
-                        <div
-                            key={server.server}
-                            className="bg-gray-600 p-4 rounded-lg text-white flex flex-col sm:flex-row justify-between items-start sm:items-center overflow-hidden"
-                        >
-                            <span className="font-bold text-sm md:text-base lg:text-lg truncate sm:w-auto w-full">
-                                {formattedLabels[index]}
-                            </span>
-    
-                            <span
-                                className="text-sm md:text-base lg:text-lg mt-2 sm:mt-0 text-right truncate w-full sm:w-auto"
-                            >
-                                {server.players_online.toLocaleString()}
-                            </span>
-                        </div>
-                    ))}
+          <div className="bg-gradient-to-b from-indigo-800 to-purple-800 rounded-lg shadow-lg p-6 md:p-8 w-full max-w-md md:max-w-xl border border-purple-600">
+            <h1 className="text-xl md:text-2xl font-bold text-center mb-4 md:mb-6 text-purple-100">
+              {region}
+            </h1>
+      
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4 md:mb-6">
+              {data.map((server, index) => (
+                <div
+                  key={server.server}
+                  className="bg-gradient-to-r from-indigo-700 to-purple-700 p-4 rounded-lg text-white flex flex-col sm:flex-row justify-between items-start sm:items-center overflow-hidden"
+                >
+                  <span className="font-bold text-sm md:text-base lg:text-lg truncate sm:w-auto w-full">
+                    {formattedLabels[index]}
+                  </span>
+                  <span className="text-sm md:text-base lg:text-lg mt-2 sm:mt-0 text-right truncate w-full sm:w-auto">
+                    {server.players_online.toLocaleString()}
+                  </span>
                 </div>
-    
-                <div className="relative h-64 md:h-80 lg:h-96">
-                    <Doughnut data={chartData} options={options} />
-                </div>
+              ))}
             </div>
+      
+            <div className="relative h-64 md:h-80 lg:h-96">
+              <Doughnut data={chartData} options={options} />
+            </div>
+          </div>
         </div>
     );
 }

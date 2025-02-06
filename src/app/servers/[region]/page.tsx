@@ -42,8 +42,8 @@ export default function Server() {
 
     return (
         <div className="p-4 sm:p-6 md:p-4 grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8">
-            <PieChart region="EU" data={euData} />
             <PieChart region="NA" data={naData} />
+            <PieChart region="EU" data={euData} />
             <PieChart region="ASIA" data={asiaData} />
         </div>
     );

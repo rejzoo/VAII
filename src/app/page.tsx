@@ -27,7 +27,7 @@ export default function Main() {
   
     return (
       <div className="flex flex-col items-center justify-start h-full pt-[8%]">
-        <h1 className="text-5xl font-bold text-blue-500 mb-6">
+        <h1 className="text-5xl font-bold text-purple-100 mb-6 drop-shadow-lg text-center">
           Sealclubber
         </h1>
 
