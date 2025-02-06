@@ -31,12 +31,12 @@ export async function POST(req: NextRequest) {
       }
   
       await supabase
-        .from("TankEquipment")
+        .from("UserTankEquipment")
         .delete()
         .eq("tank_id", tankID);
   
       const { error } = await supabase
-        .from("TankEquipment")
+        .from("UserTankEquipment")
         .upsert([
         { user_id: user.data.user?.id, tank_id: tankID, slot: 1, equipment_id: selectedEquipment[0] },
         { user_id: user.data.user?.id, tank_id: tankID, slot: 2, equipment_id: selectedEquipment[1] },

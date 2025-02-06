@@ -8,6 +8,7 @@ import { useAuth } from '../../../context/AuthContext';
 import RatingStars from "@/app/components/ui/RatingStars";
 import LoadingComponent from "@/app/components/ui/LoadingComponent";
 import EquipmentSelector from "@/app/components/ui/EquipmentSelector";
+import TopEquipment from "@/app/components/ui/TopEquipment";
 
 export default function TankPage( { params }: { params: Promise<{tankID: number}> } ) {
   const { tankID } = use<{tankID: number}>(params);
@@ -115,17 +116,20 @@ export default function TankPage( { params }: { params: Promise<{tankID: number}
       </div>
 
       <div className="text-white p-6 bg-gray-800 rounded-lg shadow-md w-full max-w-3xl mx-auto mt-6">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-gray-700 pb-4 mb-4">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
             <h2 className="text-lg md:text-xl font-bold text-center md:text-left">Community Rating</h2>
             <div className="flex justify-center md:justify-start mt-2 md:mt-0">
                 <RatingStars tankID={tankData.tank_id} readOnly={true} />
             </div>
         </div>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-gray-500 pb-4 mb-4">
+          <TopEquipment/>
+        </div>
 
         {isLoggedIn && (
           <>
             <div className="flex flex-col md:flex-row md:items-center md:justify-between">
-                <h2 className="text-lg md:text-xl font-bold text-center md:text-left">Your Rating</h2>
+                <h2 className="text-lg md:text-xl font-bold text-center md:text-left">Your prefered equipment</h2>
                 <div className="flex justify-center md:justify-start mt-2 md:mt-0">
                     <RatingStars tankID={tankData.tank_id} readOnly={false} />
                 </div>
