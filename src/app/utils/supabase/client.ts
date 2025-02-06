@@ -1,5 +1,7 @@
 import { createBrowserClient } from '@supabase/ssr'
 
+//https://supabase.com/docs/guides/getting-started/quickstarts/nextjs
+
 let supabaseClient: ReturnType<typeof createBrowserClient>;
 
 export function createClient() {

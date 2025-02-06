@@ -18,7 +18,8 @@ export async function GET(req: Request, { params }: { params: { tank_id: string 
                 { status: 500 }
             );
         }
-
+        
+        // Calculates avg if any data
         const avgRating =
             avgData.length > 0 ? avgData.reduce((sum: any, { rating }: any) => sum + rating, 0) / avgData.length : 0;
 
@@ -53,8 +54,6 @@ export async function POST(req: Request, { params }: { params:  Promise<{ tank_i
         }
         const { rating } = await req.json();
         const tank_id = (await params).tank_id;
-
-        console.log(rating);
 
         if (!tank_id || !rating || rating < 1 || rating > 5) {
             return NextResponse.json({ success: false, error: 'Invalid input' }, { status: 400 });

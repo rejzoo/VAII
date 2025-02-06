@@ -4,6 +4,7 @@ import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { ServerData } from '@/types/types';
 
+//Register so we can use the chart 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 type CircleGraphProps = {

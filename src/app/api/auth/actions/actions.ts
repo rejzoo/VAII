@@ -8,7 +8,6 @@ const passwordErrorMessage = 'Password must be at least 6 characters, contain on
 const nameErrorMessage = 'Name must be 3-15 characters long and can only include letters, numbers, or underscores.';
 
 export async function login(formData: FormData) {
-  console.log("SERVER LOGIN");
   if (!formData) return;
   const supabase = await createClient();
   const email = formData.get('email') as string;

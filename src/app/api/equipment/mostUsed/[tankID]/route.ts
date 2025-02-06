@@ -5,16 +5,11 @@ export async function GET(req: Request, { params }: { params: { tankID: number }
   const supabase = await createClient();
   const tankID = await params;
 
-  console.log("TANK ID", tankID)
-
   try {
-    // Query in the supabase - view top_equipment - group by does not fucntion in the code
     const { data, error } = await supabase
       .from("UserTankEquipment")
       .select("*")
       .eq("tank_id", tankID.tankID);
-
-    console.log("TOP DATA", data);
 
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -34,7 +29,6 @@ export async function GET(req: Request, { params }: { params: { tankID: number }
       .sort(([, countA], [, countB]) => countB - countA)
       .slice(0, 3)
       .map(([equipment_id]) => Number(equipment_id));
-
 
     const { data: equipmentDetails, error: equipmentError } = await supabase
       .from("EquipmentList")

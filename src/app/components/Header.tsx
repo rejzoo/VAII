@@ -2,13 +2,11 @@
 
 import { SearchBarPlayer } from "./ui/SearchBar";
 import { useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
 import LoginPage from "../login/page";
 import LogoutButton from "./ui/LogOutButton";
 import { isLoggedIn } from "../api/auth/actions/actions";
 
 export default function Header() {
-  const pathname = usePathname();
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isLoggedInAtr, setIsLoggedIn] = useState(false);
 

@@ -9,8 +9,6 @@ export async function GET() {
         99: "https://api.worldoftanks.eu/wot/tanks/mastery/?application_id=67ea591cc3a72e6e7aa43d66b852a3cd&distribution=xp&percentile=99",
     };
 
-    const supabase = await createClient();
-
     try {
         const responses = await Promise.all(
             Object.entries(apiUrls).map(async ([percentile, url]) => {

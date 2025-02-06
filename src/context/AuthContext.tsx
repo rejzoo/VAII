@@ -18,6 +18,12 @@ const AuthContext = createContext<AuthContextType>({
   loading: true,
 });
 
+/*
+  Internet inspired code
+  context which should hold the state of user
+  listens for events
+*/
+
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [user, setUser] = useState<User | null>(null);

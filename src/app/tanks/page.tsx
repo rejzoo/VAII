@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 import TankTableItem from "../components/TankTableItem";
 import { Tank } from '@/types/types';
-import { useAuth } from '../../context/AuthContext';
 import LoadingComponent from '../components/ui/LoadingComponent';
 import TankFilterMenu from '../components/ui/TankFilterMenu';
 
@@ -14,7 +13,6 @@ export default function TankList() {
     const [loadingState, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [showFavorites, setShowFavorites] = useState<boolean>(false);
-    const { isLoggedIn, loading } = useAuth();
 
     const [selectedNations, setSelectedNations] = useState<string[]>([]);
     const [selectedTiers, setSelectedTiers] = useState<number[]>([]);

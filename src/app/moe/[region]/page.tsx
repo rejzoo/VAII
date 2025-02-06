@@ -26,7 +26,6 @@ export default function Moe({ params }: { params: { region: string } }) {
                 });
 
                 const result = await response.json();
-                console.log("MOE Data:", result);
                 setMoeData(result);
                 setLoadingMoeData(false);
 
@@ -45,7 +44,6 @@ export default function Moe({ params }: { params: { region: string } }) {
                 });
 
                 const result = await response.json();
-                console.log("Tank List Data:", result);
 
                 if (response.ok && result.success && Array.isArray(result.data)) {
                     setTankList(result.data);
@@ -96,7 +94,7 @@ export default function Moe({ params }: { params: { region: string } }) {
     const uniqueNations = Array.from(new Set(tankList.map((tank) => tank.nation)));
     const uniqueTypes = Array.from(new Set(tankList.map((tank) => tank.type)));
 
-    // Function to toggle tier selection
+    // Function to toggle selection
     const toggleSelection = (setSelectedList: any, value: any) => {
         setSelectedList((prev: any[]) => 
             prev.includes(value) ? prev.filter((item: any) => item !== value) : [...prev, value]

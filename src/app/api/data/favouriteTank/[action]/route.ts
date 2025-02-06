@@ -2,12 +2,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '../../../../utils/supabase/server'
 
 export async function POST(req: NextRequest, { params }: { params: { action: string } }) {
-
     const supabase = await createClient();
 
     const { data, error } = await supabase.auth.getUser();
     if (error || !data?.user) {
-        console.log("NEPRIHLASENY");
         return  NextResponse.json({ error: 'NEPRIHLASENY' }, { status: 400 });
     }
 

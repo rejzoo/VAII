@@ -21,6 +21,7 @@ export default function RatingStars({ tankID, readOnly = false }: RatingStarsPro
             try {
                 const response = await fetch(`../../api/tanks/rating/${tankID}`, { method: 'GET' });
                 const result = await response.json();
+                console.log("RATING", result)
 
                 if (result.success) {
                     setRating(readOnly ? Math.round(result.avgRating) : result.userRating || 0);
@@ -46,7 +47,6 @@ export default function RatingStars({ tankID, readOnly = false }: RatingStarsPro
         if (!isLoggedIn) return alert('You need to be logged in to rate!');
 
         setRating(newRating);
-        console.log(newRating);
         let rating = newRating;
         try {
             const response = await fetch(`/api/tanks/rating/${tankID}`, {

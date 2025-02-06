@@ -38,7 +38,6 @@ export async function GET() {
 
         [naWotData[0], naWotData[1]] = [naWotData[1], naWotData[0]];
 
-
         const asiaWotData = asiaData.data.wot.map((server: ServerData) => ({
             server: server.server,
             players_online: server.players_online,
@@ -46,8 +45,6 @@ export async function GET() {
         }));
 
         const serversData = [...euWotData, ...naWotData, ...asiaWotData];
-
-        console.log(serversData);
 
         return new Response(JSON.stringify(serversData), {
             status: 200,
