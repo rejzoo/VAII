@@ -1,12 +1,11 @@
 'use client'
 
 import { SearchBarPlayer } from "./ui/SearchBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import LoginPage from "../login/page";
 import LogoutButton from "./ui/LogOutButton";
 import { isLoggedIn } from "../api/auth/actions/actions";
-import { useEffect } from "react";
 
 export default function Header() {
     const pathname = usePathname();
@@ -28,13 +27,18 @@ export default function Header() {
 
     return (
         <div className="flex items-center justify-between p-4 text-white">
-            <h1 className="text-xl font-bold">Header</h1>
 
         {pathname !== "/" && (
             <div className="flex-1 flex justify-center text-black">
             <SearchBarPlayer isLarge={false}/>
             </div>
-        )}
+        )
+        }
+
+        {pathname == "/" && (
+            <p></p>
+        )
+        }
 
         <div className="w-24 flex items-center justify-end">
         {isLoggedInAtr ? (

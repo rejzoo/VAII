@@ -3,10 +3,8 @@
 import { useEffect, useState } from 'react';
 import TankTableItem from "../components/TankTableItem";
 import { Tank } from '@/types/types';
-import { SearchBarTanks } from '../components/ui/SearchBar';
 import { useAuth } from '../../context/AuthContext';
 import LoadingComponent from '../components/ui/LoadingComponent';
-import Image from 'next/image';
 import TankFilterMenu from '../components/ui/TankFilterMenu';
 
 export default function TankList() {

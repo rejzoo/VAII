@@ -13,15 +13,3 @@ export function SearchBarPlayer({ isLarge = true }: SearchBarProps) {
       />
   );
 }
-
-export function SearchBarTanks({ value, onChange }: {value: string, onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;}) {
-  return (
-    <input 
-      type="text"
-      placeholder="Search tanks..."
-      onChange={ onChange }
-      value={ value }
-      className="rounded-lg p-1 bg-gray-600 text-white placeholder-white focus:outline-none px-3" 
-    />
-  )
-}
