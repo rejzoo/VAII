@@ -15,3 +15,8 @@ export function validateName(name: string): boolean {
   console.log("NAME TEST");
   return nameRegex.test(name);
 }
+
+export function validateText(text: string): boolean {
+  const textRegex = /^[a-zA-Z0-9\s.,!?'"()-]{5,5000}$/;
+  return textRegex.test(text);
+}

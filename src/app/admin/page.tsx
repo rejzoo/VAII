@@ -1,15 +1,21 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import '@/app/styles/AdminPage.css';
+import { validateText } from '../utils/validators/validators';
 
 export default function Page() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState('');
+    const [messageBlog, setMessageBlog] = useState('');
     const [messageColor, setMessageColor] = useState('');
     const [lastTankUpdate, setLastTankUpdate] = useState<string | null>(null);
     const [lastTankDelete, setLastTankDelete] = useState<string | null>(null);
     const [lastEquipmentUpdate, setLastEquipmentUpdate] = useState<string | null>(null);
     const [lastEquipmentDelete, setLastEquipmentDelete] = useState<string | null>(null);
+
+    const [blogHeader, setBlogHeader] = useState("");
+    const [blogText, setBlogText] = useState("");
 
     const fetchLastUpdates = async () => {
         try {
@@ -113,6 +119,43 @@ export default function Page() {
         }
     };
 
+    const handleBlogSubmit = async () => {
+
+        if (!validateText(blogHeader) || !validateText(blogText)) {
+            setMessageBlog("Illegal characters.")
+            setMessageColor('text-red-500');
+            return;
+        }
+
+        setLoading(true);
+        setMessageBlog("");
+
+        try {
+            const response = await fetch("/api/blogs/submit", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ blogHeader, blogText }),
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+                setMessageBlog(result.message);
+                setMessageColor("text-green-500");
+                setBlogHeader("");
+                setBlogText("");
+            } else {
+                setMessageBlog(result.error);
+                setMessageColor("text-red-500");
+            }
+        } catch (error) {
+            setMessageBlog("Unexpected error occurred.");
+            setMessageColor("text-red-500");
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div>
             <div className="flex flex-row space-x-4 items-center ml-10 mt-10">
@@ -167,6 +210,28 @@ export default function Page() {
                 <p className="font-bold text-xl text-white">Result: </p>
                 {message && <p className={`font-bold text-xl ${messageColor}`}>{message}</p>}
             </div>
+
+            <div className="container">
+                <h2>Update Blogs</h2>
+                <input
+                    type="text"
+                    placeholder="Enter Header"
+                    className="input-field"
+                    value={blogHeader}
+                    onChange={(e) => setBlogHeader(e.target.value)}
+                />
+                <textarea
+                    placeholder="Enter Text"
+                    className="textarea-field"
+                    value={blogText}
+                    onChange={(e) => setBlogText(e.target.value)}
+                />
+                <button onClick={handleBlogSubmit} className="submit-button" disabled={loading}>
+                    {loading ? "Submitting..." : "Submit"}
+                </button>
+                {messageBlog && <p className={`message ${messageColor}`}>{messageBlog}</p>}
+            </div>
         </div>
     );
 }
+

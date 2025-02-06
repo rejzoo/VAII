@@ -197,7 +197,7 @@ export async function getUserDetails(): Promise<{ email: string | null; createdA
     return { email: null, createdAtDate: null , role: null};
   }
 
-  const createdAtDate = new Date(createdAt).toISOString().replace("T", " ").split(".")[0];;
+  const createdAtDate = new Date(createdAt).toISOString().replace("T", " ").split(".")[0];
 
   return { email: email, createdAtDate: createdAtDate, role: data.role };
 }

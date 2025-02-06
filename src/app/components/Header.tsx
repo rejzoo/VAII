@@ -28,17 +28,16 @@ export default function Header() {
     return (
         <div className="flex items-center justify-between p-4 text-white">
 
-        {pathname !== "/" && (
+        {/* {pathname !== "/" && (
             <div className="flex-1 flex justify-center text-black">
             <SearchBarPlayer isLarge={false}/>
             </div>
         )
-        }
+        } */}
 
-        {pathname == "/" && (
-            <p></p>
-        )
-        }
+            <div className="flex-1 flex justify-center text-black">
+                <SearchBarPlayer isLarge={false}/>
+            </div>
 
         <div className="w-24 flex items-center justify-end">
         {isLoggedInAtr ? (

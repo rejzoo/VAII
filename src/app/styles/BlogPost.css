@@ -1,0 +1,29 @@
+.blog-post {
+    background-color: #1e293b;
+    color: white;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    max-width: 600px;
+  }
+  
+  .blog-header {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #60a5fa;
+    margin-bottom: 8px;
+  }
+  
+  .blog-date {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 10px;
+  }
+  
+  .blog-text {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #e2e8f0;
+  }
+  
