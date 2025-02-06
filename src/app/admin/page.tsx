@@ -159,40 +159,40 @@ export default function Page() {
     return (
         <div className="admin-container">
             <div className="section">
-                <p>Update Tank Records in Database from API</p>
-                <button className="button" onClick={() => {}} disabled={loading}>
+                <p className='text-bold'>Update Tank Records in Database from API</p>
+                <button className="button" onClick={handleUpdateTanks} disabled={loading}>
                     {loading ? 'Updating...' : 'UPDATE'}
                 </button>
                 <p className="status-text">Last update: {lastTankUpdate ? lastTankUpdate : 'No updates yet'}</p>
             </div>
 
             <div className="section">
-                <p>Update Equipment Records in Database from API</p>
-                <button className="button" onClick={() => {}} disabled={loading}>
+                <p className='text-bold'>Update Equipment Records in Database from API</p>
+                <button className="button" onClick={handleUpdateEquipment} disabled={loading}>
                     {loading ? 'Updating...' : 'UPDATE'}
                 </button>
                 <p className="status-text">Last update: {lastEquipmentUpdate ? lastEquipmentUpdate : 'No updates yet'}</p>
             </div>
 
             <div className="section">
-                <p>Delete all tank records from database (tanklist table)</p>
-                <button className="button" onClick={() => {}} disabled={loading}>
+                <p className='text-bold'>Delete all tank records from database (tanklist table)</p>
+                <button className="button" onClick={handleDeleteTanks} disabled={loading}>
                     {loading ? 'Updating...' : 'DELETE'}
                 </button>
                 <p className="status-text">Last update: {lastTankDelete ? lastTankDelete : 'No updates yet'}</p>
             </div>
 
             <div className="section">
-                <p>Delete all equipment records from database (equipmentlist table)</p>
-                <button className="button" onClick={() => {}} disabled={loading}>
+                <p className='text-bold'>Delete all equipment records from database (equipmentlist table)</p>
+                <button className="button" onClick={handleDeleteEquipment} disabled={loading}>
                     {loading ? 'Updating...' : 'DELETE'}
                 </button>
                 <p className="status-text">Last update: {lastEquipmentDelete ? lastEquipmentDelete : 'No updates yet'}</p>
             </div>
 
             <div className="section">
-                <p>Result:</p>
-                {message && <p className={`message ${messageColor}`}>{message}</p>}
+                <p className='text-bold'>Result:</p>
+                {message && <p className={`font-bold text-xl ${messageColor}`}>{message}</p>}
             </div>
 
             <div className="container">

@@ -1,15 +1,21 @@
 import { createClient } from "@/app/utils/supabase/server";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request, { params }: { params: { tankID: number } }) {
   const supabase = await createClient();
+  const tankID = await params;
+
+  console.log("TANK ID", tankID)
 
   try {
     // Query in the supabase - view top_equipment - group by does not fucntion in the code
     const { data, error } = await supabase
-        .from("top_equipment")
-        .select("*");
-    console.log(error)
+      .from("UserTankEquipment")
+      .select("*")
+      .eq("tank_id", tankID.tankID);
+
+    console.log("TOP DATA", data);
+
     if (error) {
       return NextResponse.json({ success: false, error: error.message }, { status: 500 });
     }
@@ -18,28 +24,28 @@ export async function GET() {
       return NextResponse.json({ success: true, data: [] });
     }
 
-    const topEquipmentIds = data.map((item) => item.equipment_id);
+    const frequency: Record<number, number> = {};
+    data.forEach((item) => {
+      frequency[item.equipment_id] = (frequency[item.equipment_id] || 0) + 1;
+    });
+
+    // Convert frequency object to array, sort descending by count, and take top 3
+    const sortedEquipmentIDs = Object.entries(frequency)
+      .sort(([, countA], [, countB]) => countB - countA)
+      .slice(0, 3)
+      .map(([equipment_id]) => Number(equipment_id));
+
 
     const { data: equipmentDetails, error: equipmentError } = await supabase
       .from("EquipmentList")
       .select("provision_id, name, image")
-      .in("provision_id", topEquipmentIds);
+      .in("provision_id", sortedEquipmentIDs);
 
     if (equipmentError) {
       return NextResponse.json({ success: false, error: equipmentError.message }, { status: 500 });
     }
 
-    const topEquipment = data.map((item) => {
-      const details = equipmentDetails.find((eq) => eq.provision_id === item.equipment_id);
-      return {
-        provision_id: item.equipment_id,
-        name: details?.name || "Unknown",
-        image: details?.image || "",
-        count: item.count,
-      };
-    });
-
-    return NextResponse.json({ success: true, data: topEquipment });
+    return NextResponse.json({ success: true, data: equipmentDetails });
   } catch (error) {
     return NextResponse.json({ success: false, error: "Unexpected error occurred" }, { status: 500 });
   }

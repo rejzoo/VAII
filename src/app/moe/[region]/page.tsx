@@ -128,39 +128,38 @@ export default function Moe({ params }: { params: { region: string } }) {
                 numberOfTanks={filteredTanks.length}
             />
 
-<div className="overflow-x-auto bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow-md">
-  <table className="min-w-full border-collapse">
-    <thead className="bg-gradient-to-b from-purple-700 to-indigo-700 text-white text-xl">
-      <tr>
-        <th className="px-4 py-2 text-left">Nation</th>
-        <th className="px-4 py-2 text-left">Type</th>
-        <th className="px-4 py-2 text-left">Tier</th>
-        <th className="px-4 py-2 text-left">Name</th>
-        <th className="px-4 py-2 text-left">65%</th>
-        <th className="px-4 py-2 text-left">85%</th>
-        <th className="px-4 py-2 text-left">95%</th>
-        <th className="px-4 py-2 text-left">100%</th>
-      </tr>
-    </thead>
-    <tbody>
-      {filteredTanks.map((tank, index) => (
-        <TankTableItemMasteryMoe
-          key={index}
-          index={index}
-          nation={tank.nation!}
-          type={tank.type!}
-          tier={tank.tier!}
-          name={tank.name!}
-          value1={tank.value1}
-          value2={tank.value2}
-          value3={tank.value3}
-          value4={tank.value4}
-        />
-      ))}
-    </tbody>
-  </table>
-</div>
-
+            <div className="overflow-x-auto bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow-md">
+                <table className="min-w-full border-collapse">
+                    <thead className="bg-gradient-to-b from-purple-700 to-indigo-700 text-white text-xl">
+                        <tr>
+                            <th className="px-4 py-2 text-left">Nation</th>
+                            <th className="px-4 py-2 text-left">Type</th>
+                            <th className="px-4 py-2 text-left">Tier</th>
+                            <th className="px-4 py-2 text-left">Name</th>
+                            <th className="px-4 py-2 text-left">65%</th>
+                            <th className="px-4 py-2 text-left">85%</th>
+                            <th className="px-4 py-2 text-left">95%</th>
+                            <th className="px-4 py-2 text-left">100%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {filteredTanks.map((tank, index) => (
+                            <TankTableItemMasteryMoe
+                            key={index}
+                            index={index}
+                            nation={tank.nation!}
+                            type={tank.type!}
+                            tier={tank.tier!}
+                            name={tank.name!}
+                            value1={tank.value1}
+                            value2={tank.value2}
+                            value3={tank.value3}
+                            value4={tank.value4}
+                            />
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

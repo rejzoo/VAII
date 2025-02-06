@@ -65,7 +65,7 @@ export default function TankList() {
     const uniqueNations = Array.from(new Set(tanks.map((tank) => tank.nation)));
     const uniqueTypes = Array.from(new Set(tanks.map((tank) => tank.type)));
 
-    // Function to toggle tier selection
+    // Function to toggle selection
     const toggleSelection = (setSelectedList: any, value: any) => {
         setSelectedList((prev: any[]) => 
             prev.includes(value) ? prev.filter((item: any) => item !== value) : [...prev, value]
@@ -77,6 +77,10 @@ export default function TankList() {
         setSelectedNations([]);
         setSelectedTypes([]);
     };
+
+    const toggleFavourite = () => {
+        setShowFavorites(!showFavorites);
+    }
 
     // found on the internet
     // case-insensitive filtering that also supports special characters
@@ -96,7 +100,7 @@ export default function TankList() {
     if (error) {
         return <p className="text-center text-red-500">Error: {error}</p>;
     }
-    console.log(isLoggedIn);
+
     return (
         <>
             <TankFilterMenu
@@ -113,24 +117,26 @@ export default function TankList() {
                 toggleSelection={toggleSelection}
                 resetFilters={resetFilters}
                 numberOfTanks={filteredTanks.length}
+                toggleFavourite={toggleFavourite}
+                tankList={true}
             />
 
-<div className="flex justify-center">
-  <div className="p-4 bg-gradient-to-b to-indigo-700 from-purple-800 rounded-lg">
-    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 gap-x-15">
-      {filteredTanks.map((tank, index) => (
-        <TankTableItem
-          key={index}
-          tankID={tank.tank_id}
-          nation={tank.nation}
-          typeIcon={tank.type}
-          name={tank.name}
-          link={tank.name}
-        />
-      ))}
-    </div>
-  </div>
-</div>
+            <div className="flex justify-center">
+                <div className="p-4 bg-gradient-to-b to-indigo-700 from-purple-800 rounded-lg">
+                    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-2 gap-x-15">
+                        {filteredTanks.map((tank, index) => (
+                            <TankTableItem
+                            key={index}
+                            tankID={tank.tank_id}
+                            nation={tank.nation}
+                            typeIcon={tank.type}
+                            name={tank.name}
+                            link={tank.name}
+                            />
+                        ))}
+                    </div>
+                </div>
+            </div>
         </>
     );
 }

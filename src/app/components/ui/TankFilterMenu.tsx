@@ -16,6 +16,8 @@ interface TankFiltersProps {
   toggleSelection: (setSelectedList: any, value: any) => void;
   resetFilters: () => void;
   numberOfTanks: number;
+  toggleFavourite?: () => void;
+  tankList?: boolean;
 }
 
 export default function TankFilters({
@@ -31,7 +33,9 @@ export default function TankFilters({
   setSearchQuery,
   toggleSelection,
   resetFilters,
-  numberOfTanks
+  numberOfTanks,
+  toggleFavourite,
+  tankList = false
 }: TankFiltersProps) {
   return (
     <div className="m-5 bg-gradient-to-b from-indigo-700 to-purple-800 rounded-[30px] p-5 mx-auto shadow-lg">
@@ -109,13 +113,23 @@ export default function TankFilters({
           />
           <p className="mt-2 ml-5 text-white">Found: {numberOfTanks} tanks</p>
         </div>
-  
-        <button
-          className="w-40 h-10 flex items-center justify-center rounded-lg text-lg font-bold bg-red-600 text-white hover:bg-red-800 ml-4 focus:outline-none focus:ring-2 focus:ring-red-400"
-          onClick={resetFilters}
-        >
-          Reset Filters
-        </button>
+        
+        <div className='flex flex row'>
+          {tankList && (
+          <button
+            className="w-40 h-10 flex items-center justify-center rounded-lg text-lg font-bold bg-blue-500 text-white hover:bg-blue-800 ml-4 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            onClick={toggleFavourite}
+            >
+            Show favorites
+          </button>)}
+
+          <button
+            className="w-40 h-10 flex items-center justify-center rounded-lg text-lg font-bold bg-red-600 text-white hover:bg-red-800 ml-4 focus:outline-none focus:ring-2 focus:ring-red-400"
+            onClick={resetFilters}
+            >
+            Reset Filters
+          </button>
+        </div>
       </div>
     </div>
   );

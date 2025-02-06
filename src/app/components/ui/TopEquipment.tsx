@@ -4,14 +4,19 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import LoadingComponent from "./LoadingComponent";
 
-export default function TopEquipment() {
+interface TopEquipmentProps {
+  tankID: number;
+}
+
+export default function TopEquipment({ tankID }: TopEquipmentProps) {
   const [topEquipment, setTopEquipment] = useState<{ name: string; image: string; count: number }[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTopEquipment = async () => {
       try {
-        const response = await fetch(`/api/equipment/mostUsed`);
+        
+        const response = await fetch(`/api/equipment/mostUsed/${tankID}`);
         const result = await response.json();
 
         if (response.ok && result.success) {

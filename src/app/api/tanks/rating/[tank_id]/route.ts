@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/app/utils/supabase/server';
-import { useAuth } from '../../../../../context/AuthContext';
 
 export async function GET(req: Request, { params }: { params: { tank_id: string } }) {
     const supabase = await createClient();
@@ -17,7 +16,8 @@ export async function GET(req: Request, { params }: { params: { tank_id: string 
             return NextResponse.json(
                 { success: false, error: avgError.message },
                 { status: 500 }
-            );        }
+            );
+        }
 
         const avgRating =
             avgData.length > 0 ? avgData.reduce((sum: any, { rating }: any) => sum + rating, 0) / avgData.length : 0;

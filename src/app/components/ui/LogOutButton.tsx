@@ -12,6 +12,7 @@ export default function LogoutButton({ setIsLoggedIn } : LogoutButtonProps) {
       const success = await logout();
       if (success) {
         setIsLoggedIn(false);
+        location.reload();
       }
   }
 

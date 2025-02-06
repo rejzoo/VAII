@@ -4,12 +4,14 @@ import { NextResponse } from "next/server";
 export async function GET(req: Request, { params }: { params: { tankID: string } }) {
   const supabase = await createClient();
   const { tankID } = await params;
+  const dataUser = await supabase.auth.getUser();
 
   try {
     const { data, error } = await supabase
       .from("UserTankEquipment")
       .select("equipment_id")
       .eq("tank_id", tankID)
+      .eq("user_id", dataUser.data.user?.id)
       .order("slot", { ascending: true });
 
     if (error) {

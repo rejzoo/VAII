@@ -123,7 +123,7 @@ export default function TankPage( { params }: { params: Promise<{tankID: number}
             </div>
         </div>
         <div className="flex flex-col md:flex-row md:items-center md:justify-between border-b border-gray-500 pb-4 mb-4">
-          <TopEquipment/>
+          <TopEquipment tankID={tankID}/>
         </div>
 
         {isLoggedIn && (

@@ -28,6 +28,7 @@ export default function LoginSigninForm({ onClose, isLogin, setIsLoggedIn }: Log
     const resultDiv = document.getElementById('result');
     if (resultDiv) {
       if (result?.success) {
+        location.reload();
         onClose();
         setIsLoggedIn(true);
       } else if (result?.error) {

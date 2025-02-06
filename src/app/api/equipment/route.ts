@@ -33,7 +33,8 @@ export async function POST(req: NextRequest) {
       await supabase
         .from("UserTankEquipment")
         .delete()
-        .eq("tank_id", tankID);
+        .eq("tank_id", tankID)
+        .eq("user_id", user.data.user?.id);
   
       const { error } = await supabase
         .from("UserTankEquipment")
